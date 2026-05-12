@@ -3,10 +3,30 @@ import { useEffect, useRef, useState } from "react";
 import { useReveal } from "../useReveal";
 
 const STATS = [
-  { value: 20,  suffix: "+", label: "Projets livrés",  desc: "Sites et apps en production" },
-  { value: 7,   suffix: "j", label: "Délai moyen",     desc: "Pour un site vitrine complet" },
-  { value: 100, suffix: "%", label: "Sur mesure",      desc: "Zéro template, zéro copier-coller" },
-  { value: 5,   suffix: "★", label: "Note Google",     desc: "Avis vérifiés de vrais clients" },
+  {
+    value: 20,
+    suffix: "+",
+    label: "Projets livrés",
+    desc: "Sites et apps en production",
+  },
+  {
+    value: 7,
+    suffix: "j",
+    label: "Délai moyen",
+    desc: "Pour un site vitrine complet",
+  },
+  {
+    value: 100,
+    suffix: "%",
+    label: "Sur mesure",
+    desc: "Zéro template, zéro copier-coller",
+  },
+  {
+    value: 5,
+    suffix: "★",
+    label: "Note Google",
+    desc: "Avis vérifiés de vrais clients",
+  },
 ];
 
 const VALEURS = [
@@ -27,7 +47,7 @@ const VALEURS = [
   },
 ];
 
-const STACK = ["React", "Node.js", "Vite", "Tailwind", "Stripe", "Supabase", "Framer Motion", "PostgreSQL"];
+const STACK = ["React", "Node.js", "Vite", "SCSS"];
 
 export default function About() {
   const statsRef = useRef(null);
@@ -35,7 +55,7 @@ export default function About() {
   const [animated, setAnimated] = useState(false);
 
   const photoRef = useReveal(0.15);
-  const mainRef  = useReveal(0.1);
+  const mainRef = useReveal(0.1);
   const asideRef = useReveal(0.1);
 
   useEffect(() => {
@@ -122,7 +142,9 @@ export default function About() {
             {STATS.map((s, i) => (
               <div
                 key={s.label}
-                className={`about-stat${animated ? " about-stat--animated" : ""}`}
+                className={`about-stat${
+                  animated ? " about-stat--animated" : ""
+                }`}
                 style={{ "--delay": `${i * 80}ms` }}
               >
                 <div className="about-stat-value">
@@ -158,7 +180,9 @@ export default function About() {
           <div className="about-aside-label">Stack</div>
           <div className="about-pills">
             {STACK.map((s) => (
-              <span key={s} className="about-pill">{s}</span>
+              <span key={s} className="about-pill">
+                {s}
+              </span>
             ))}
           </div>
 

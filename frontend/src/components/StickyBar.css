@@ -151,30 +151,89 @@
   }
 }
 
+/* ── Responsive mobile ── */
 @media (max-width: 768px) {
-  .has-sticky-bar .chat-trigger {
-    bottom: calc(60px + max(24px, calc(env(safe-area-inset-bottom) + 16px)));
+  .sticky-bar {
+    padding: 0 16px;
+    padding-bottom: env(safe-area-inset-bottom);
   }
-  .has-sticky-bar .scroll-top {
-    bottom: calc(60px + max(92px, calc(env(safe-area-inset-bottom) + 88px)));
-  }
-}
 
-/* ── Responsive ── */
-@media (max-width: 768px) {
-  .sticky-bar-text { display: none; }
-  .sticky-bar-inner { gap: 10px; height: 58px; }
-  .sticky-bar-ghost { display: none; }
+  .sticky-bar-inner {
+    height: auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 10px 0;
+  }
+
+  /* Ligne du haut : dot + label + close */
+  .sticky-bar-text {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .sticky-bar-label {
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    color: rgba(232, 238, 245, 0.5);
+  }
+
+  /* Boutons côte à côte sur mobile */
+  .sticky-bar-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .sticky-bar-ghost {
+    display: inline-flex;
+    justify-content: center;
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 11px 10px;
+    gap: 5px;
+    min-height: 44px;
+  }
+  .sticky-bar-ghost svg { width: 13px; height: 13px; }
+
   .sticky-bar-cta {
-    flex: 1;
+    flex: unset;
     justify-content: center;
     clip-path: none;
     border-radius: 4px;
-    font-size: 12px;
-    padding: 12px 16px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 11px 10px;
+    min-height: 44px;
+  }
+
+  /* Close repositionné en haut à droite */
+  .sticky-bar-close {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    padding: 8px;
+  }
+
+  /* Décalage flottants — bar mobile ~112px + safe-area déjà absorbée par la bar */
+  .has-sticky-bar .chat-trigger {
+    bottom: calc(112px + env(safe-area-inset-bottom) + 16px);
+    transition: bottom 0.3s ease;
+  }
+  .has-sticky-bar .scroll-top {
+    /* au-dessus du chat-trigger : hauteur trigger 56px + gap 16px */
+    bottom: calc(112px + env(safe-area-inset-bottom) + 16px + 56px + 16px);
+    transition: bottom 0.3s ease;
   }
 }
 
 @media (max-width: 400px) {
-  .sticky-bar-cta { font-size: 11px; letter-spacing: 1px; }
+  .sticky-bar-ghost span,
+  .sticky-bar-cta span {
+    font-size: 9px;
+    letter-spacing: 0.8px;
+  }
 }

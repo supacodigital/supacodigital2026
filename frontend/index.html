@@ -43,15 +43,20 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": "ProfessionalService",
       "name": "Supaco Digital",
-      "description": "Agence web freelance spécialisée dans la création de sites vitrines et d'applications web sur mesure pour les entreprises du Pays de Gex.",
+      "description": "Agence web freelance à Saint-Genis-Pouilly (Pays de Gex). Création de sites vitrines, e-commerce et applications web sur mesure pour PME, indépendants et restaurateurs. Devis gratuit sous 24h.",
       "url": "https://supaco.digital/",
       "telephone": "+33783052412",
       "email": "supaco.digital@gmail.com",
+      "founder": {
+        "@type": "Person",
+        "name": "Kevin",
+        "jobTitle": "Développeur web & fondateur",
+        "worksFor": { "@type": "Organization", "name": "Supaco Digital" }
+      },
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "",
         "addressLocality": "Saint-Genis-Pouilly",
         "postalCode": "01630",
         "addressRegion": "Ain",
@@ -63,23 +68,28 @@
         "longitude": 6.0247
       },
       "areaServed": [
-        "Saint-Genis-Pouilly",
-        "Gex",
-        "Pays de Gex",
-        "Ferney-Voltaire",
-        "Divonne-les-Bains",
-        "Thoiry",
-        "Cessy",
-        "Ain",
-        "Genève"
+        { "@type": "City", "name": "Saint-Genis-Pouilly" },
+        { "@type": "City", "name": "Gex" },
+        { "@type": "City", "name": "Ferney-Voltaire" },
+        { "@type": "City", "name": "Divonne-les-Bains" },
+        { "@type": "City", "name": "Thoiry" },
+        { "@type": "City", "name": "Prévessin-Moëns" },
+        { "@type": "City", "name": "Cessy" },
+        { "@type": "City", "name": "Ornex" },
+        { "@type": "City", "name": "Crozet" },
+        { "@type": "AdministrativeArea", "name": "Pays de Gex" },
+        { "@type": "AdministrativeArea", "name": "Ain" },
+        { "@type": "City", "name": "Genève" }
       ],
-      "serviceType": [
+      "knowsAbout": [
         "Création de site web",
         "Site vitrine",
         "E-commerce",
         "Application web sur mesure",
         "Développement React",
-        "Abonnement web mensuel"
+        "Node.js",
+        "SEO local",
+        "Paiement en ligne Stripe"
       ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
@@ -87,46 +97,44 @@
         "itemListElement": [
           {
             "@type": "Offer",
-            "name": "Starter",
-            "description": "Jusqu'à 5 pages, design responsive, hébergement et mises à jour inclus, 1 modification par mois.",
-            "priceSpecification": {
-              "@type": "PriceSpecification",
-              "description": "Sur devis selon le projet",
-              "priceCurrency": "EUR"
-            }
+            "name": "Site vitrine Starter",
+            "description": "Jusqu'à 5 pages, design responsive, livraison en 7 jours, SEO de base inclus.",
+            "priceSpecification": { "@type": "PriceSpecification", "description": "Sur devis — appel découverte gratuit", "priceCurrency": "EUR" }
           },
           {
             "@type": "Offer",
-            "name": "Pro",
-            "description": "Jusqu'à 10 pages, SEO optimisé, blog, hébergement et mises à jour inclus, 2 à 3 modifications par mois, support prioritaire.",
-            "priceSpecification": {
-              "@type": "PriceSpecification",
-              "description": "Sur devis selon le projet",
-              "priceCurrency": "EUR"
-            }
+            "name": "Site vitrine Pro",
+            "description": "Jusqu'à 10 pages, SEO optimisé, blog, support prioritaire.",
+            "priceSpecification": { "@type": "PriceSpecification", "description": "Sur devis — appel découverte gratuit", "priceCurrency": "EUR" }
           },
           {
             "@type": "Offer",
-            "name": "E-Commerce",
-            "description": "Produits illimités, paiement en ligne, dashboard admin, SEO, blog, hébergement et mises à jour inclus, support prioritaire, formation incluse.",
-            "priceSpecification": {
-              "@type": "PriceSpecification",
-              "description": "Sur devis selon le projet",
-              "priceCurrency": "EUR"
-            }
+            "name": "Boutique E-Commerce",
+            "description": "Produits illimités, paiement Stripe en ligne, dashboard admin, SEO e-commerce.",
+            "priceSpecification": { "@type": "PriceSpecification", "description": "Sur devis — appel découverte gratuit", "priceCurrency": "EUR" }
           },
           {
             "@type": "Offer",
-            "name": "App Restaurant",
-            "description": "Développement sur mesure, commandes en ligne, paiement intégré, dashboard gérant, hébergement et mises à jour inclus, support prioritaire.",
-            "priceSpecification": {
-              "@type": "PriceSpecification",
-              "description": "Sur devis selon le projet",
-              "priceCurrency": "EUR"
-            }
+            "name": "Application web sur mesure",
+            "description": "Développement sur mesure React + Node.js, commandes en ligne, paiement intégré.",
+            "priceSpecification": { "@type": "PriceSpecification", "description": "Sur devis — appel découverte gratuit", "priceCurrency": "EUR" }
           }
         ]
       },
+      "review": [
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "Alexia" },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+          "reviewBody": "Site vitrine livré en moins d'une semaine, exactement ce que je voulais. Kevin est réactif et très pro."
+        },
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "Marc" },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+          "reviewBody": "Excellent travail, notre boutique en ligne tourne parfaitement. Je recommande sans hésiter."
+        }
+      ],
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "5.0",
@@ -135,10 +143,77 @@
         "worstRating": "1"
       },
       "priceRange": "€€",
-      "openingHours": "Mo-Fr 09:00-18:00",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:00",
+          "closes": "18:00"
+        }
+      ],
       "sameAs": [
-        "https://www.instagram.com/supa_c0/",
+        "https://www.instagram.com/supacodigital/",
         "https://share.google/m3klfZOEmhom152fk"
+      ]
+    }
+    </script>
+
+    <!-- ── WebSite Schema (sitelinks search box) ────────────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Supaco Digital",
+      "url": "https://supaco.digital/",
+      "description": "Agence web freelance — création de sites vitrines, e-commerce et applications web sur mesure dans le Pays de Gex.",
+      "inLanguage": "fr-FR",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Supaco Digital",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://supaco.digital/logo2026.png"
+        }
+      }
+    }
+    </script>
+
+    <!-- ── BreadcrumbList Schema ──────────────────────────────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://supaco.digital/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://supaco.digital/#services"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Projets",
+          "item": "https://supaco.digital/#projets"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "FAQ",
+          "item": "https://supaco.digital/#faq"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Contact",
+          "item": "https://supaco.digital/#contact"
+        }
       ]
     }
     </script>
@@ -151,26 +226,18 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "Combien coûte un site web dans le Pays de Gex ?",
+          "name": "Comment fonctionne le paiement ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Chez Supaco Digital, les tarifs sont établis sur devis et personnalisés selon votre projet. Nous proposons quatre offres : Starter (site vitrine jusqu'à 5 pages), Pro (jusqu'à 10 pages, SEO, blog), E-Commerce (boutique complète) et App Restaurant (commandes en ligne). Contactez-nous pour recevoir votre devis gratuit."
+            "text": "Un acompte est réglé à la commande pour lancer le projet. Le solde est dû à la livraison, une fois que vous avez validé le résultat. Aucun frais caché, aucune surprise."
           }
         },
         {
           "@type": "Question",
-          "name": "Est-ce que je garde mon site si j'arrête l'abonnement ?",
+          "name": "Comment est établi le tarif pour un site web dans le Pays de Gex ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Le site est hébergé et maintenu dans le cadre de l'abonnement. En cas de résiliation, vous récupérez l'ensemble des fichiers sources pour les confier à un autre prestataire."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Que se passe-t-il à la fin de l'engagement 12 ou 24 mois ?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "L'abonnement se renouvelle tacitement mois par mois. Vous pouvez résilier à tout moment avec un préavis de 30 jours."
+            "text": "On commence par un appel découverte gratuit de 30 minutes pour cerner votre projet, vos besoins et vos objectifs. Je vous envoie ensuite un devis personnalisé sous 24h, sans engagement. Chaque projet est unique."
           }
         },
         {
@@ -178,7 +245,23 @@
           "name": "Combien de temps pour avoir mon site en ligne ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Starter et Pro : environ 1 semaine. E-Commerce : 2 à 3 semaines. Application Web : selon le cahier des charges, nous définissons ensemble le planning lors d'un appel découverte gratuit."
+            "text": "Site vitrine : environ 7 jours. Site Pro : 1 à 2 semaines. E-Commerce : 2 à 3 semaines. Application sur mesure : selon le cahier des charges, défini ensemble lors de l'appel découverte."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Le nom de domaine et l'hébergement sont-ils inclus ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Non, le nom de domaine et l'hébergement ne sont pas inclus dans le devis. Je vous accompagne pour choisir et configurer la meilleure solution selon votre projet — c'est simple et rapide."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Est-ce que je suis propriétaire du site une fois livré ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui, totalement. Vous récupérez l'ensemble des fichiers sources à la livraison. Le site vous appartient, vous pouvez le confier à qui vous voulez."
           }
         },
         {
@@ -186,25 +269,88 @@
           "name": "Travaillez-vous avec des clients à Genève et en Suisse ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Oui, Supaco Digital travaille avec des clients à Genève, en Suisse et dans toute la région lémanique. Basés à Saint-Genis-Pouilly dans le Pays de Gex, nous sommes idéalement situés pour accompagner les entreprises frontalières. Nous travaillons aussi à distance pour des clients partout en France."
+            "text": "Oui. Basé à Saint-Genis-Pouilly dans le Pays de Gex, je suis idéalement placé pour les entreprises frontalières de la région lémanique (Genève, Nyon). Je travaille aussi à distance pour des clients partout en France."
           }
         },
         {
           "@type": "Question",
-          "name": "Que comprend exactement les mises à jour et la sécurité incluses ?",
+          "name": "Pourquoi choisir une agence web locale dans le Pays de Gex ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Toutes nos offres incluent les mises à jour du CMS, des plugins et des dépendances, la surveillance de sécurité et les sauvegardes régulières. Vous n'avez rien à gérer techniquement."
+            "text": "Travailler avec une agence web locale comme Supaco Digital, c'est avoir un interlocuteur unique, joignable directement, qui connaît le tissu économique du Pays de Gex. Pas de sous-traitant, pas de chaîne de mails — Kevin s'occupe de votre projet de A à Z, avec un appel découverte gratuit pour démarrer."
           }
         }
       ]
     }
     </script>
 
+    <!-- ── Service Schemas (prestations SEO local) ─────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Création de site vitrine Pays de Gex",
+      "description": "Conception et développement de sites vitrines sur mesure pour PME et indépendants du Pays de Gex. Design moderne, SEO local intégré, livraison en 7 jours.",
+      "provider": { "@type": "LocalBusiness", "name": "Supaco Digital", "url": "https://supaco.digital/" },
+      "areaServed": ["Saint-Genis-Pouilly", "Gex", "Ferney-Voltaire", "Divonne-les-Bains", "Thoiry", "Pays de Gex"],
+      "serviceType": "Site vitrine",
+      "url": "https://supaco.digital/#services"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Création de boutique e-commerce Pays de Gex",
+      "description": "Développement de boutiques en ligne performantes avec paiement Stripe, catalogue produits illimité et tableau de bord admin, pour les commerçants du Pays de Gex et de la région lémanique.",
+      "provider": { "@type": "LocalBusiness", "name": "Supaco Digital", "url": "https://supaco.digital/" },
+      "areaServed": ["Saint-Genis-Pouilly", "Gex", "Ferney-Voltaire", "Genève", "Pays de Gex"],
+      "serviceType": "E-commerce",
+      "url": "https://supaco.digital/#services"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Développement application web sur mesure",
+      "description": "Création d'applications web React et Node.js sur mesure : commandes en ligne, espaces client, dashboards. Idéal pour restaurateurs et entreprises du Pays de Gex souhaitant digitaliser leur activité.",
+      "provider": { "@type": "LocalBusiness", "name": "Supaco Digital", "url": "https://supaco.digital/" },
+      "areaServed": ["Pays de Gex", "Ain", "Genève", "France"],
+      "serviceType": "Application web sur mesure",
+      "url": "https://supaco.digital/#services"
+    }
+    </script>
+
     <!-- ── Favicon & PWA ───────────────────────────────────────── -->
     <link rel="icon" type="image/png" href="/logo2026.png" />
     <link rel="apple-touch-icon" href="/logo2026.png" />
+    <link rel="shortcut icon" href="/logo2026.png" />
     <meta name="theme-color" content="#0a0a12" />
+    <meta name="application-name" content="Supaco Digital" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Supaco Digital" />
+
+    <!-- ── Preload ressources critiques (LCP) ────────────────────── -->
+    <link rel="preload" as="image" href="/logo2026.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="dns-prefetch" href="https://calendly.com" />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+
+    <!-- ── Google Analytics 4 ───────────────────────────────────── -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HNC2YHVHVJ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-HNC2YHVHVJ', {
+        page_title: document.title,
+        anonymize_ip: true,
+        cookie_flags: 'SameSite=None;Secure'
+      });
+    </script>
 
     <!-- ── Polices ─────────────────────────────────────────────── -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

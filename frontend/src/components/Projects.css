@@ -168,6 +168,10 @@
   max-width: 420px;
 }
 
+.proj-details-actions {
+  display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+}
+
 .proj-details-cta {
   display: inline-flex; align-items: center; gap: 9px;
   font-family: var(--ff-ui); font-size: 12px; font-weight: 700;
@@ -177,6 +181,17 @@
   transition: gap .2s;
 }
 .proj-details-cta:hover { gap: 14px; }
+
+.proj-details-cs {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--ff-ui); font-size: 12px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--proj-text-dim); text-decoration: none;
+  background: none; border: none; cursor: pointer;
+  padding: 0;
+  transition: gap .2s, color .2s;
+}
+.proj-details-cs:hover { gap: 14px; color: var(--proj-text); }
 
 /* ── Reveal stagger ──────────────────────────────────── */
 @keyframes proj-reveal {

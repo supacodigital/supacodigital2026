@@ -26,6 +26,8 @@ const ZONES = [
   },
 ]
 
+import { useReveal } from '../useReveal'
+
 const COLOR_MAP = {
   cyan:   { dot: '#00e5ff', border: 'rgba(0,229,255,0.3)',   bg: 'rgba(0,229,255,0.06)',   text: '#00e5ff',          glow: 'rgba(0,229,255,0.2)' },
   blue:   { dot: '#1a6bff', border: 'rgba(26,107,255,0.3)',  bg: 'rgba(26,107,255,0.06)',  text: '#6fa3ff',          glow: 'rgba(26,107,255,0.15)' },
@@ -43,12 +45,15 @@ function Dot({ color }) {
 }
 
 export default function Zone() {
+  const headerRef = useReveal(0.2)
+  const cardsRef  = useReveal(0.1)
+
   return (
     <section className="section zone" id="zone">
       <div className="zone-bg-map" aria-hidden="true" />
 
       <div className="zone-inner">
-        <div className="zone-header">
+        <div className="zone-header reveal-up" ref={headerRef}>
           <div className="section-label">Zone d'intervention</div>
           <h2 className="section-title">Pays de Gex <em>&amp; au-delà</em></h2>
           <p className="zone-desc">
@@ -62,7 +67,7 @@ export default function Zone() {
           <span className="zone-stat-label">{STAT.label}</span>
         </div>
 
-        <div className="zone-cards">
+        <div className="zone-cards reveal-stagger" ref={cardsRef}>
           {ZONES.map((z) => {
             const c = COLOR_MAP[z.color]
             return (
@@ -89,6 +94,19 @@ export default function Zone() {
               </div>
             )
           })}
+        </div>
+
+        {/* Texte SEO local — visible mais discret, indexé par Google */}
+        <div className="zone-seo-text" aria-label="Zone d'intervention détaillée">
+          <h3>Agence web dans le Pays de Gex</h3>
+          <p>
+            Supaco Digital est une agence web freelance basée à <strong>Saint-Genis-Pouilly (01630)</strong>,
+            au cœur du <strong>Pays de Gex</strong>. Nous accompagnons les PME, indépendants et restaurateurs
+            de <strong>Gex</strong>, <strong>Ferney-Voltaire</strong>, <strong>Divonne-les-Bains</strong>,{' '}
+            <strong>Thoiry</strong>, <strong>Prévessin-Moëns</strong> et <strong>Cessy</strong>.
+            Nous intervenons aussi pour des entreprises frontalières basées à <strong>Genève</strong> et
+            dans la région lémanique, ainsi qu'à distance partout en France.
+          </p>
         </div>
       </div>
     </section>

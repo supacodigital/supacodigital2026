@@ -196,6 +196,35 @@
   border-top: 1px solid rgba(232,238,245,0.06);
 }
 
+/* ── Texte SEO local ─────────────────────────────────── */
+.zone-seo-text {
+  max-width: 680px;
+  text-align: center;
+  border-top: 1px solid rgba(232,238,245,0.07);
+  padding-top: 32px;
+}
+
+.zone-seo-text h3 {
+  font-family: var(--ff-ui);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(232,238,245,0.35);
+  margin-bottom: 12px;
+}
+
+.zone-seo-text p {
+  font-size: 13px;
+  color: rgba(232,238,245,0.28);
+  line-height: 1.9;
+}
+
+.zone-seo-text strong {
+  color: rgba(232,238,245,0.45);
+  font-weight: 600;
+}
+
 /* ── Responsive ──────────────────────────────────────── */
 @media (max-width: 1024px) {
   .zone-cards {

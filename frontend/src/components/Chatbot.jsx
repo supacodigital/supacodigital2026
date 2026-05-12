@@ -1,12 +1,20 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Icon } from '../icons'
 import { API } from '../config'
+import { trackEvent } from '../useAnalytics'
 
 const SESSION_KEY = 'digi_conversation'
 const INITIAL_MESSAGE = {
   role: 'assistant',
-  content: 'Bonjour ! Je suis Digi, l\'assistant de Supaco Digital. Vous cherchez un site vitrine, une boutique en ligne ou une app restaurant ? Je peux vous guider vers la bonne offre.'
+  content: 'Bonjour ! Je suis Digi 👋\n\nJe peux vous aider à définir votre projet web et vous orienter vers la bonne solution — site vitrine, e-commerce, app sur mesure…\n\nDites-moi en quelques mots ce que vous cherchez, ou choisissez une question ci-dessous.'
 }
+
+const INITIAL_QUICK_REPLIES = [
+  'Je veux un site vitrine',
+  'Je lance une boutique en ligne',
+  'Combien ça coûte ?',
+  'Quel délai de livraison ?',
+]
 
 function loadHistory() {
   try {
@@ -36,9 +44,7 @@ export default function Chatbot() {
   const [loading, setLoading] = useState(false)
   const [showBadge, setShowBadge] = useState(false)
   const [bubble, setBubble] = useState(false)
-  const [quickReplies, setQuickReplies] = useState([
-    'Offre Starter', 'Offre Pro', 'Offre E-Commerce', 'App Restaurant'
-  ])
+  const [quickReplies, setQuickReplies] = useState(INITIAL_QUICK_REPLIES)
   const msgsEnd = useRef(null)
   const notifiedRef = useRef(false)
   const panelRef = useRef(null)
@@ -109,7 +115,7 @@ export default function Chatbot() {
     const fresh = [INITIAL_MESSAGE]
     setMessages(fresh)
     saveHistory(fresh)
-    setQuickReplies(['Offre Starter', 'Offre Pro', 'Offre E-Commerce', 'App Restaurant'])
+    setQuickReplies(INITIAL_QUICK_REPLIES)
   }
 
   const send = async (text) => {
@@ -128,6 +134,7 @@ export default function Chatbot() {
         body: JSON.stringify({ messages: next.slice(-10) }),
       })
       const data = await res.json()
+      if (data.leadCaptured) trackEvent('chatbot_lead_captured')
       setMessages(m => [...m, { role: 'assistant', content: data.reply || 'Une erreur est survenue.' }])
     } catch {
       setMessages(m => [...m, { role: 'assistant', content: 'Je ne suis pas disponible pour l\'instant. Contactez-nous directement !' }])
@@ -184,7 +191,7 @@ export default function Chatbot() {
             {messages.map((m, i) => (
               <div key={i} className={`chat-msg ${m.role === 'user' ? 'user' : 'bot'}`}>
                 <div className="chat-msg-av" aria-hidden="true">{m.role === 'user' ? 'V' : 'D'}</div>
-                <div className="chat-bubble">{m.content}</div>
+                <div className="chat-bubble" style={{ whiteSpace: 'pre-line' }}>{m.content}</div>
               </div>
             ))}
             {loading && (
@@ -238,7 +245,7 @@ export default function Chatbot() {
 
       <button
         className={`chat-trigger${bubble && !open ? ' chat-trigger--notify' : ''}`}
-        onClick={() => { setOpen(o => !o); setShowBadge(false); setBubble(false) }}
+        onClick={() => { if (!open) trackEvent('chatbot_open'); setOpen(o => !o); setShowBadge(false); setBubble(false) }}
         aria-label={open ? 'Fermer le chat' : 'Ouvrir le chat avec Digi'}
         aria-expanded={open}
       >

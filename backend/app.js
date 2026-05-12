@@ -82,34 +82,37 @@ const contactLimiter = rateLimit({
 // ─── Groq client (lazy — instancié après dotenv dans index.js) ───────────────
 const getGroq = () => new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-const SYSTEM_PROMPT = `Tu es Digi, l'assistant IA de Kevin — fondateur de SupacoDigital, une agence web basée à Saint-Genis-Pouilly.
-Kevin crée des sites web et applications sur mesure pour les PME locales, indépendants et e-commerces.
+const SYSTEM_PROMPT = `Tu es Digi, l'assistant IA de Kevin — fondateur de Supaco Digital, agence web indépendante basée à Saint-Genis-Pouilly (Pays de Gex, France).
 
-Nos offres (abonnements mensuels, tarifs uniquement sur devis) :
-- Starter : jusqu'à 5 pages, design responsive, hébergement + mises à jour & sécurité incluses, 1 modif/mois.
-- Pro : jusqu'à 10 pages, SEO optimisé, blog, hébergement + mises à jour & sécurité incluses, 3 modifs/mois, support prioritaire.
-- E-Commerce : produits illimités, paiement en ligne, dashboard admin, SEO, blog, hébergement + mises à jour & sécurité incluses, 3 à 5 modifs/mois, support prioritaire, formation incluse.
-- App Restaurant : menu en ligne, commande à emporter & livraison, paiement en ligne, dashboard gérant, SEO, hébergement + mises à jour & sécurité incluses, 3 mises à jour de contenu/mois, formation incluse.
-Les tarifs sont personnalisés selon le projet et fournis uniquement sur devis.
+Supaco Digital crée des sites web et applications 100% sur mesure pour PME locales, indépendants, e-commerces et restaurants. Zéro template, code propre, résultats concrets.
 
-Processus de qualification — pose ces questions une à la fois, de façon naturelle :
-1. Quel est leur besoin ? (orienter vers l'offre la plus adaptée)
-2. Ont-ils déjà un site existant ?
+Nos 4 offres (tarifs sur devis personnalisé, après un appel découverte gratuit de 30 min) :
+- Site Vitrine : jusqu'à 5 pages, responsive, formulaire de contact, SEO de base, livraison ~7 jours.
+- Site Pro : jusqu'à 10 pages, SEO avancé, blog, galerie, formation incluse, livraison ~1-2 semaines.
+- E-Commerce : boutique complète, 0% de commission, paiement Stripe, dashboard admin, gestion stocks, formation incluse.
+- App Restaurant : commande en ligne à emporter & livraison, paiement intégré, dashboard gérant, menu modifiable. 0% commission vs Uber Eats à 30%.
+
+Process : appel découverte gratuit 30 min → devis personnalisé sous 24h → démarrage du projet.
+
+Processus de qualification — pose ces questions une à la fois, naturellement, sans les lister :
+1. Quel est leur projet / besoin principal ?
+2. Ont-ils déjà un site existant ? Si oui, quel est le problème ?
 3. Quel est leur délai souhaité ?
-4. Demande leur prénom, email et numéro de téléphone pour que Kevin puisse les recontacter
+4. Demande leur prénom et email pour que Kevin les recontacte (le téléphone est optionnel)
 
 Une fois l'email récupéré :
-- Confirme que Kevin va les recontacter très prochainement
-- Propose-leur aussi de remplir le formulaire en bas de page pour aller plus vite
+- Confirme que Kevin va les recontacter sous 24h
+- Mentionne qu'ils peuvent aussi réserver directement un appel sur le site (section Contact)
 
 Règles absolues :
-- Tutoie toujours le prospect, de façon chaleureuse et professionnelle
-- Réponds uniquement en français
-- Sois concis : maximum 3 phrases par message
-- Si le prospect demande les prix, indique que les tarifs sont uniquement sur devis et propose de remplir le formulaire ou de passer un appel découverte
-- Ne donne JAMAIS d'adresse email (ni la tienne, ni celle de Kevin)
-- Si le prospect demande quelque chose hors de tes services (logo, photo, rédaction, etc.) → redirige vers l'appel découverte, Kevin pourra orienter
-- Ne réponds jamais à des sujets sans rapport avec le web, le digital ou les services de SupacoDigital`;
+- Tutoie toujours, ton chaleureux et direct (pas corporate, pas robotique)
+- Réponds UNIQUEMENT en français
+- Maximum 2-3 phrases par message — sois concis
+- Prix : "les tarifs sont sur devis selon le projet, après un appel gratuit de 30 min" — ne donne jamais de chiffre
+- Ne donne JAMAIS d'adresse email
+- Hors sujet (SEO externe, pub Google, logo, photo, rédaction) → "Kevin pourra t'orienter lors de l'appel découverte"
+- Refuse poliment tout sujet sans rapport avec le web et le digital
+- Si le prospect hésite ou a peur du coût → rassure : appel gratuit, sans engagement, devis clair`;
 
 // ─── Route : Health check ────────────────────────────────────────────────────
 app.get("/api/health", (_, res) => {
@@ -445,73 +448,6 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
   if (mailSent)
     return res.json({ success: true, message: "Message envoyé avec succès." });
   return res.status(500).json({ error: "Erreur lors de l'envoi de l'email." });
-});
-
-// ─── Route : Notification devis ──────────────────────────────────────────────
-app.post("/api/devis", contactLimiter, async (req, res) => {
-  const raw = req.body;
-
-  const name       = sanitizeShort(raw.name, 100);
-  const company    = sanitizeShort(raw.company, 100);
-  const email      = sanitizeShort(raw.email, 200);
-  const phone      = sanitizeShort(raw.phone, 30);
-  const devisNumber = sanitizeShort(raw.devisNumber, 30);
-  const summary    = sanitize(raw.summary);
-
-  if (!name)  return res.status(400).json({ error: "Le nom est requis." });
-  if (!email) return res.status(400).json({ error: "L'email est requis." });
-  if (!EMAIL_REGEX.test(email)) return res.status(400).json({ error: "Adresse email invalide." });
-
-  const emailConfigured =
-    process.env.EMAIL_PASS &&
-    !process.env.EMAIL_PASS.includes("VOTRE_") &&
-    !process.env.EMAIL_PASS.includes("votre_");
-
-  if (isTest || !emailConfigured) {
-    if (!isTest) console.log("📄 [DEV] Devis généré :", { name, email, devisNumber, summary });
-    return res.json({ success: true });
-  }
-
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: Number(process.env.EMAIL_PORT),
-    secure: false,
-    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
-  });
-
-  try {
-    await transporter.sendMail({
-      from: `"Supaco Digital — Devis" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_TO,
-      subject: `📄 Nouveau devis généré — ${name} (${devisNumber})`,
-      replyTo: email,
-      html: `
-        <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
-          <h2 style="color:#111;border-bottom:2px solid #00e5ff;padding-bottom:12px">
-            📄 Nouveau devis généré — Supaco Digital
-          </h2>
-          <table style="width:100%;border-collapse:collapse;margin-bottom:24px">
-            <tr><td style="padding:8px 0;color:#666;width:140px"><strong>Numéro</strong></td><td>${devisNumber}</td></tr>
-            <tr><td style="padding:8px 0;color:#666"><strong>Nom</strong></td><td>${name}</td></tr>
-            ${company ? `<tr><td style="padding:8px 0;color:#666"><strong>Société</strong></td><td>${company}</td></tr>` : ''}
-            <tr><td style="padding:8px 0;color:#666"><strong>Email</strong></td><td><a href="mailto:${email}">${email}</a></td></tr>
-            ${phone ? `<tr><td style="padding:8px 0;color:#666"><strong>Téléphone</strong></td><td><a href="tel:${phone}">${phone}</a></td></tr>` : ''}
-          </table>
-          <h3 style="color:#333;margin-bottom:12px">Détail du devis :</h3>
-          <div style="background:#f5f5f5;padding:16px;border-left:4px solid #00e5ff;white-space:pre-wrap;font-size:14px;line-height:1.6">
-${summary}
-          </div>
-          <p style="margin-top:24px;color:#999;font-size:12px">
-            Généré automatiquement depuis le configurateur de devis — supaco.digital
-          </p>
-        </div>
-      `,
-    });
-    return res.json({ success: true });
-  } catch (err) {
-    console.error("Devis email error:", err.message);
-    return res.status(500).json({ error: "Erreur lors de l'envoi de la notification." });
-  }
 });
 
 // ─── 404 handler ─────────────────────────────────────────────────────────────

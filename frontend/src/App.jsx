@@ -1,36 +1,31 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, lazy, Suspense } from 'react'
 import './App.css'
 import Loader from './components/Loader'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
 import CodeEditor from './components/CodeEditor'
+import Process from './components/Process'
 import Services from './components/Services'
-import DevisGenerator from './components/DevisGenerator'
 import Projects from './components/Projects'
 import Testimonials from './components/Testimonials'
 import Zone from './components/Zone'
 import FAQ from './components/FAQ'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
-import Chatbot from './components/Chatbot'
 import ScrollToTop from './components/ScrollToTop'
-import CalendlyModal from './components/CalendlyModal'
+import StickyBar from './components/StickyBar'
+
+const Chatbot       = lazy(() => import('./components/Chatbot'))
+const CalendlyModal = lazy(() => import('./components/CalendlyModal'))
 
 export default function App() {
   const [loaded, setLoaded] = useState(false)
   const [calendlyOpen, setCalendlyOpen] = useState(false)
-  const [devisOpen, setDevisOpen] = useState(false)
-  const [devisPlan, setDevisPlan] = useState(null)
   const navLogoRef = useRef(null)
 
-  function openDevis(planId = null) {
-    setDevisPlan(planId)
-    setDevisOpen(true)
-  }
-
   return (
-    <>
+    <Suspense fallback={null}>
       {!loaded && (
         <Loader
           onDone={() => setLoaded(true)}
@@ -38,12 +33,6 @@ export default function App() {
         />
       )}
       {calendlyOpen && <CalendlyModal onClose={() => setCalendlyOpen(false)} />}
-      {devisOpen && (
-        <DevisGenerator
-          initialPlan={devisPlan}
-          onClose={() => { setDevisOpen(false); setDevisPlan(null) }}
-        />
-      )}
       <Navbar navLogoRef={navLogoRef} onOpenCalendly={() => setCalendlyOpen(true)} />
       <main>
         <Hero onOpenCalendly={() => setCalendlyOpen(true)} />
@@ -51,6 +40,8 @@ export default function App() {
         <About />
         <div className="divider divider--dark" />
         <CodeEditor />
+        <div className="divider divider--light" />
+        <Process />
         <div className="divider divider--light" />
         <Services onOpenCalendly={() => setCalendlyOpen(true)} />
         <div className="divider" />
@@ -67,6 +58,7 @@ export default function App() {
       <Footer />
       <Chatbot />
       <ScrollToTop />
-    </>
+      <StickyBar onOpenCalendly={() => setCalendlyOpen(true)} />
+    </Suspense>
   )
 }

@@ -1,13 +1,19 @@
 import { Icon } from "../icons";
 import ContactForm from "./ContactForm";
 import MeshBg from "./MeshBg";
+import { useAnalytics } from "../useAnalytics";
+import { useReveal } from "../useReveal";
 
 export default function Contact({ onOpenCalendly }) {
+  const { trackCalendlyOpen } = useAnalytics()
+  const infoRef = useReveal(0.1)
+  const formRef = useReveal(0.1)
+
   return (
     <section className="section contact" id="contact">
       <MeshBg />
       <div className="contact-inner">
-        <div className="contact-info">
+        <div className="contact-info reveal-left" ref={infoRef}>
           <div className="section-label">Contact</div>
           <h2 className="section-title">
             Démarrons <em>ensemble</em>
@@ -56,7 +62,7 @@ export default function Contact({ onOpenCalendly }) {
             </a>
           </div>
           <button
-            onClick={onOpenCalendly}
+            onClick={() => { trackCalendlyOpen('contact'); onOpenCalendly() }}
             className="contact-calendly"
           >
             <div className="contact-cal-icon">
@@ -71,7 +77,9 @@ export default function Contact({ onOpenCalendly }) {
             <Icon.Arrow />
           </button>
         </div>
-        <ContactForm />
+        <div className="contact-form-wrap reveal-right" ref={formRef}>
+          <ContactForm />
+        </div>
       </div>
     </section>
   );

@@ -1,4 +1,23 @@
 User-agent: *
 Allow: /
 
+# Bloquer les crawlers IA (scraping de contenu)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
 Sitemap: https://supaco.digital/sitemap.xml

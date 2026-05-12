@@ -3,6 +3,7 @@
 @import './components/Navbar.css';
 @import './components/Hero.css';
 @import './components/About.css';
+@import './components/Process.css';
 @import './components/Services.css';
 @import './components/Projects.css';
 @import './components/Testimonials.css';
@@ -11,6 +12,8 @@
 @import './components/ContactForm.css';
 @import './components/Footer.css';
 @import './components/LegalModal.css';
+@import './components/CaseStudyModal.css';
+@import './components/ProjectConfigurator.css';
 @import './components/Chatbot.css';
 @import './components/ScrollToTop.css';
-@import './components/DevisGenerator.css';
+@import './components/StickyBar.css';

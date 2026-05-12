@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Icon } from '../icons'
 import { API } from '../config'
 import LegalModal from './LegalModal'
+import { trackEvent } from '../useAnalytics'
 
 export default function ContactForm() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '' })
@@ -27,6 +28,7 @@ export default function ContactForm() {
     if (!form.message.trim()) { setErrMsg('Veuillez renseigner votre message.'); setStatus('error'); return }
     setStatus('loading')
     setErrMsg('')
+    trackEvent('contact_submit', { service: form.service || 'non_renseigne' })
     try {
       const res = await fetch(`${API}/api/contact`, {
         method: 'POST',
@@ -35,6 +37,7 @@ export default function ContactForm() {
       })
       const data = await res.json()
       if (!res.ok) { setErrMsg(data.error || 'Erreur lors de l\'envoi.'); setStatus('error'); return }
+      trackEvent('contact_success', { service: form.service || 'non_renseigne' })
       setStatus('success')
     } catch {
       setErrMsg('Erreur réseau. Réessayez plus tard.')

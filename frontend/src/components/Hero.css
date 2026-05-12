@@ -111,6 +111,17 @@
 }
 .hero-stat {
   text-align: left;
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: background 0.25s, box-shadow 0.25s;
+  cursor: default;
+}
+.hero-stat:hover {
+  background: rgba(0, 229, 255, 0.05);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.08);
+}
+.hero-stat:hover .hero-stat-num {
+  filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.5));
 }
 .hero-stat-num {
   font-family: var(--ff-ui);

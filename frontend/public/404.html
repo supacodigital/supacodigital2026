@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page introuvable — Supaco Digital</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="/logo2026.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:    #05060f;
+      --cyan:     #00e5ff;
+      --blue:     #1a6bff;
+      --white:    #e8eef5;
+      --dim:      rgba(232,238,245,.45);
+      --border:   rgba(232,238,245,.1);
+      --ff-ui:    'Barlow Condensed', sans-serif;
+      --ff-body:  'Barlow', sans-serif;
+    }
+
+    html, body {
+      min-height: 100dvh;
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--ff-body);
+      overflow-x: hidden;
+    }
+
+    /* ── Background mesh ── */
+    .bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 30%, rgba(0,229,255,.07) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 70%, rgba(26,107,255,.08) 0%, transparent 70%);
+    }
+    .bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(232,238,245,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(232,238,245,.018) 1px, transparent 1px);
+      background-size: 52px 52px;
+    }
+
+    /* ── Noise overlay ── */
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 180px;
+      opacity: .45;
+    }
+
+    /* ── Layout ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+      text-align: center;
+    }
+
+    /* ── Logo ── */
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      margin-bottom: 60px;
+    }
+    .logo img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+    .logo-text {
+      font-family: var(--ff-ui);
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    .logo-text span { color: var(--cyan); }
+
+    /* ── 404 number ── */
+    .error-code {
+      font-family: var(--ff-ui);
+      font-weight: 900;
+      font-size: clamp(100px, 20vw, 180px);
+      line-height: 1;
+      letter-spacing: -4px;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      animation: glow-pulse 3s ease-in-out infinite;
+      user-select: none;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(0,229,255,.3)); }
+      50%       { filter: drop-shadow(0 0 50px rgba(0,229,255,.6)); }
+    }
+
+    /* ── Glitch line ── */
+    .glitch-bar {
+      width: min(360px, 80vw);
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      margin: 8px auto 32px;
+      animation: glitch-scan 2.4s ease-in-out infinite;
+    }
+    @keyframes glitch-scan {
+      0%        { transform: scaleX(0.2); opacity: 0; }
+      20%, 80%  { transform: scaleX(1);   opacity: 1; }
+      100%      { transform: scaleX(0.2); opacity: 0; }
+    }
+
+    /* ── Text ── */
+    .error-title {
+      font-family: var(--ff-ui);
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+
+    .error-desc {
+      font-size: 15px;
+      color: var(--dim);
+      line-height: 1.8;
+      max-width: 420px;
+      margin: 0 auto 40px;
+    }
+
+    /* ── Actions ── */
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 56px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--ff-ui);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--black);
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      border: none;
+      padding: 14px 28px;
+      cursor: pointer;
+      text-decoration: none;
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+      transition: box-shadow .25s, transform .2s;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 36px rgba(0,229,255,.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--ff-ui);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--white);
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 13px 24px;
+      cursor: pointer;
+      text-decoration: none;
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+      transition: border-color .2s, color .2s;
+    }
+    .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    /* ── Quick links ── */
+    .quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+
+    .quick-link {
+      font-family: var(--ff-ui);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 999px;
+      transition: color .2s, border-color .2s;
+    }
+    .quick-link:hover { color: var(--cyan); border-color: var(--cyan); }
+
+    /* ── Footer ── */
+    .foot {
+      font-size: 11px;
+      color: rgba(232,238,245,.25);
+      letter-spacing: .5px;
+    }
+    .foot a { color: rgba(232,238,245,.4); text-decoration: none; }
+    .foot a:hover { color: var(--cyan); }
+
+    /* ── Floating particles ── */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--cyan);
+      border-radius: 50%;
+      opacity: 0;
+      animation: float-up linear infinite;
+    }
+    .particle:nth-child(1)  { left: 10%; animation-duration: 8s;  animation-delay: 0s;   width: 3px; height: 3px; }
+    .particle:nth-child(2)  { left: 25%; animation-duration: 11s; animation-delay: 1.5s; }
+    .particle:nth-child(3)  { left: 40%; animation-duration: 9s;  animation-delay: 3s;   background: var(--blue); }
+    .particle:nth-child(4)  { left: 60%; animation-duration: 13s; animation-delay: 0.8s; }
+    .particle:nth-child(5)  { left: 75%; animation-duration: 7s;  animation-delay: 2.2s; width: 3px; height: 3px; background: var(--blue); }
+    .particle:nth-child(6)  { left: 88%; animation-duration: 10s; animation-delay: 4s;   }
+    .particle:nth-child(7)  { left: 50%; animation-duration: 12s; animation-delay: 1s;   }
+    .particle:nth-child(8)  { left: 15%; animation-duration: 9.5s;animation-delay: 5s;   background: var(--blue); }
+
+    @keyframes float-up {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: .6; }
+      90%  { opacity: .3; }
+      100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .error-code { animation: none; filter: none; }
+      .glitch-bar { animation: none; opacity: 1; transform: none; }
+      .particle   { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .actions { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-ghost { width: 100%; max-width: 300px; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="noise"></div>
+  <div class="particles" aria-hidden="true">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <div class="page">
+    <a href="/" class="logo" aria-label="Supaco Digital — retour accueil">
+      <img src="/logo2026.webp" alt="Supaco Digital" width="32" height="32" />
+      <span class="logo-text">Supaco<span>.</span>Digital</span>
+    </a>
+
+    <div class="error-code" aria-label="Erreur 404">404</div>
+    <div class="glitch-bar" aria-hidden="true"></div>
+
+    <h1 class="error-title">Page introuvable</h1>
+    <p class="error-desc">
+      Cette page n'existe pas ou a été déplacée.<br />
+      Retournez à l'accueil ou explorez nos services.
+    </p>
+
+    <div class="actions">
+      <a href="/" class="btn-primary">
+        ← Retour à l'accueil
+      </a>
+      <a href="/#contact" class="btn-ghost">
+        Nous contacter
+      </a>
+    </div>
+
+    <nav aria-label="Liens rapides">
+      <div class="quick-links">
+        <a href="/#services" class="quick-link">Services</a>
+        <a href="/#projets" class="quick-link">Projets</a>
+        <a href="/#propos" class="quick-link">À propos</a>
+        <a href="/#faq" class="quick-link">FAQ</a>
+        <a href="/#avis" class="quick-link">Avis</a>
+      </div>
+    </nav>
+
+    <p class="foot">
+      © 2026 Supaco Digital · Agence web <a href="/#zone">Pays de Gex</a>
+    </p>
+  </div>
+</body>
+</html>

@@ -2,10 +2,20 @@ import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { Icon } from '../icons'
 
+const NAV_ITEMS = [
+  { label: 'À propos',  href: '#propos' },
+  { label: 'Services',  href: '#services' },
+  { label: 'Projets',   href: '#projets' },
+  { label: 'Contact',   href: '#contact' },
+]
+
+const SECTION_IDS = ['accueil', 'propos', 'services', 'projets', 'zone', 'faq', 'contact']
+
 export default function Navbar({ navLogoRef, onOpenCalendly }) {
   const [scrolled, setScrolled] = useState(false)
   const [visible, setVisible] = useState(true)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('')
   const lastY = useRef(0)
 
   useEffect(() => {
@@ -21,6 +31,21 @@ export default function Navbar({ navLogoRef, onOpenCalendly }) {
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    const observers = []
+    SECTION_IDS.forEach(id => {
+      const el = document.getElementById(id)
+      if (!el) return
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveSection(id) },
+        { rootMargin: '-40% 0px -50% 0px' }
+      )
+      obs.observe(el)
+      observers.push(obs)
+    })
+    return () => observers.forEach(o => o.disconnect())
   }, [])
 
   // Bloque le scroll du body quand le menu est ouvert
@@ -47,14 +72,9 @@ export default function Navbar({ navLogoRef, onOpenCalendly }) {
         </button>
       </div>
       <ul role="list">
-        {['À propos', 'Services', 'Projets', 'Contact'].map(l => (
-          <li key={l}>
-            <a
-              href={`#${l.toLowerCase().replace('à ', '').replace(' ', '-')}`}
-              onClick={closeMenu}
-            >
-              {l}
-            </a>
+        {NAV_ITEMS.map(({ label, href }) => (
+          <li key={label}>
+            <a href={href} onClick={closeMenu}>{label}</a>
           </li>
         ))}
       </ul>
@@ -70,16 +90,24 @@ export default function Navbar({ navLogoRef, onOpenCalendly }) {
       <div className={`nav-wrap${scrolled ? ' scrolled' : ''}${!visible ? ' nav-wrap--hidden' : ''}`}>
         <nav className="nav" aria-label="Navigation principale">
           <a href="#accueil" className="nav-logo">
-            <img ref={navLogoRef} src="/logo2026.webp" alt="Supaco Digital — retour accueil" />
+            <img ref={navLogoRef} src="/logo2026.webp" alt="Supaco Digital — retour accueil" fetchpriority="high" decoding="async" width="32" height="32" />
             <span className="nav-logo-text">Supaco<span>.</span>Digital</span>
           </a>
 
           <ul className="nav-links" role="list">
-            {['À propos', 'Services', 'Projets', 'Contact'].map(l => (
-              <li key={l}>
-                <a href={`#${l.toLowerCase().replace('à ', '').replace(' ', '-')}`}>{l}</a>
-              </li>
-            ))}
+            {NAV_ITEMS.map(({ label, href }) => {
+              const sectionId = href.replace('#', '')
+              const isActive = activeSection === sectionId
+              return (
+                <li key={label}>
+                  <a
+                    href={href}
+                    className={isActive ? 'nav-link--active' : ''}
+                    aria-current={isActive ? 'true' : undefined}
+                  >{label}</a>
+                </li>
+              )
+            })}
           </ul>
 
           <button onClick={() => onOpenCalendly()} className="nav-cta">

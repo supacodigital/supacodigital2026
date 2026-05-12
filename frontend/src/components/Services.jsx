@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Icon } from '../icons'
+import ProjectConfigurator from './ProjectConfigurator'
+import { useReveal } from '../useReveal'
 
 
 function useIsMobile() {
@@ -22,8 +24,8 @@ const plans = [
     glow: 'rgba(0,229,255,.15)',
     popular: false,
     surMesure: true,
-    cta: 'Demander un devis',
-    badge: '10% à la commande',
+    cta: 'Prendre RDV gratuit',
+    badge: 'Sur devis après RDV',
     sections: [
       {
         label: 'CE QUI EST INCLUS',
@@ -45,8 +47,8 @@ const plans = [
     glow: 'rgba(26,107,255,.2)',
     popular: true,
     surMesure: true,
-    cta: 'Demander un devis',
-    badge: '10% à la commande',
+    cta: 'Prendre RDV gratuit',
+    badge: 'Sur devis après RDV',
     sections: [
       {
         label: 'CE QUI EST INCLUS',
@@ -68,8 +70,8 @@ const plans = [
     glow: 'rgba(168,85,247,.15)',
     popular: false,
     noCommission: true,
-    cta: 'Demander un devis',
-    badge: '10% à la commande',
+    cta: 'Prendre RDV gratuit',
+    badge: 'Sur devis après RDV',
     sections: [
       {
         label: 'CE QUI EST INCLUS',
@@ -92,8 +94,8 @@ const plans = [
     glow: 'rgba(34,197,94,.15)',
     popular: false,
     noCommissionResto: true,
-    cta: 'Demander un devis',
-    badge: '10% à la commande',
+    cta: 'Prendre RDV gratuit',
+    badge: 'Sur devis après RDV',
     sections: [
       {
         label: 'CE QUI EST INCLUS',
@@ -174,10 +176,12 @@ function PricingCard({ plan, showArrow, onOpenCalendly, active }) {
 }
 
 
-export default function Services({ onOpenCalendly }) {
+export default function Services({ onOpenCalendly }){
   const [activeIndex, setActiveIndex] = useState(0)
   const isMobile = useIsMobile()
   const touchStartX = useRef(null)
+  const headerRef = useReveal(0.2)
+  const gridRef   = useReveal(0.05)
 
   function handleTouchStart(e) {
     touchStartX.current = e.touches[0].clientX
@@ -194,11 +198,18 @@ export default function Services({ onOpenCalendly }) {
 
   return (
     <section className="section" id="services">
-      <div className="section-label">Offres</div>
-      <h2 className="section-title">Choisissez votre <em>offre</em></h2>
+      <div className="reveal-up" ref={headerRef}>
+        <div className="section-label">Offres</div>
+        <h2 className="section-title">Choisissez votre <em>offre</em></h2>
+        <div className="services-availability">
+          <span className="services-avail-dot" aria-hidden="true" />
+          <span>Disponible — <strong>2 créneaux restants</strong> pour démarrer en mai</span>
+        </div>
+      </div>
 
       <div
-        className="pricing-grid"
+        className="pricing-grid reveal-stagger"
+        ref={gridRef}
         onTouchStart={isMobile ? handleTouchStart : undefined}
         onTouchEnd={isMobile ? handleTouchEnd : undefined}
       >
@@ -225,6 +236,8 @@ export default function Services({ onOpenCalendly }) {
           ))}
         </div>
       )}
+
+      <ProjectConfigurator onOpenCalendly={onOpenCalendly} />
 
       <div className="custom-card">
         <div className="custom-card-glow" />

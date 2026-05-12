@@ -80,6 +80,55 @@
 .btn-ghost:hover { border-color:var(--cyan); color:var(--cyan); box-shadow:0 0 20px var(--cyan-dim); }
 .btn-ghost:active { transform: scale(.97); }
 
+/* ── Scroll Reveal ───────────────────────────────────── */
+.reveal-up,
+.reveal-left,
+.reveal-right,
+.reveal-scale {
+  opacity: 0;
+  transition: opacity 0.65s cubic-bezier(.22,1,.36,1), transform 0.65s cubic-bezier(.22,1,.36,1);
+  will-change: opacity, transform;
+}
+.reveal-up    { transform: translateY(40px); }
+.reveal-left  { transform: translateX(-36px); }
+.reveal-right { transform: translateX(36px); }
+.reveal-scale { transform: scale(0.94) translateY(24px); }
+
+.reveal-up.is-visible,
+.reveal-left.is-visible,
+.reveal-right.is-visible,
+.reveal-scale.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Délais pour les enfants staggerés */
+.reveal-up:nth-child(2),
+.reveal-scale:nth-child(2) { transition-delay: 80ms; }
+.reveal-up:nth-child(3),
+.reveal-scale:nth-child(3) { transition-delay: 160ms; }
+.reveal-up:nth-child(4),
+.reveal-scale:nth-child(4) { transition-delay: 240ms; }
+
+/* Wrapper pour stagger les enfants directs */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.55s cubic-bezier(.22,1,.36,1), transform 0.55s cubic-bezier(.22,1,.36,1);
+}
+.reveal-stagger.is-visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:   0ms; }
+.reveal-stagger.is-visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:  80ms; }
+.reveal-stagger.is-visible > *:nth-child(3) { opacity:1; transform:none; transition-delay: 160ms; }
+.reveal-stagger.is-visible > *:nth-child(4) { opacity:1; transform:none; transition-delay: 240ms; }
+.reveal-stagger.is-visible > *:nth-child(5) { opacity:1; transform:none; transition-delay: 320ms; }
+.reveal-stagger.is-visible > *:nth-child(6) { opacity:1; transform:none; transition-delay: 400ms; }
+.reveal-stagger.is-visible > *:nth-child(n+7) { opacity:1; transform:none; transition-delay: 480ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up, .reveal-left, .reveal-right, .reveal-scale,
+  .reveal-stagger > * { opacity:1; transform:none; transition:none; }
+}
+
 @media (max-width: 1024px) {
   .section { padding: 80px 28px; }
 }

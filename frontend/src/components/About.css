@@ -120,6 +120,10 @@
   display: block;
 }
 
+.about-photo-badges {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+
 .about-photo-tag {
   display: inline-flex; align-items: center; gap: 7px;
   font-family: var(--ff-ui); font-size: 10px; font-weight: 600;
@@ -137,6 +141,12 @@
   animation: dot-blink 2s ease-in-out infinite;
 }
 @keyframes dot-blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+.about-photo-location {
+  font-family: var(--ff-ui); font-size: 10px; font-weight: 500;
+  letter-spacing: .5px; color: var(--about-text-dim);
+  opacity: .6;
+}
 
 /* ── Main : identité + bio (colonne 2) ──────────────── */
 .about-main { padding: 4px 0; }
@@ -194,6 +204,16 @@
   align-items: center;
   padding: 18px 12px;
   position: relative;
+  transition: background .2s;
+}
+.about-stat:hover { background: rgba(255,255,255,.8); }
+.about-stat--animated {
+  animation: stat-pop .4s cubic-bezier(.22,1,.36,1) both;
+  animation-delay: var(--delay, 0ms);
+}
+@keyframes stat-pop {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
 }
 
 .about-stat + .about-stat::before {
@@ -231,10 +251,56 @@
   color: var(--about-text-dim);
 }
 
-/* ── Aside : stack + socials (colonne 3) ────────────── */
+.about-stat-desc {
+  margin-top: 3px;
+  font-family: var(--ff-body);
+  font-size: 10px; font-weight: 300;
+  color: rgba(15,15,22,.38);
+  text-align: center;
+  line-height: 1.3;
+  display: none;
+}
+.about-stat:hover .about-stat-desc { display: block; }
+
+/* ── Aside : valeurs + stack + socials (colonne 3) ─── */
 .about-aside {
   display: flex; flex-direction: column; gap: 0;
   padding-top: 4px;
+}
+
+/* Valeurs */
+.about-valeurs {
+  display: flex; flex-direction: column; gap: 12px;
+  margin-bottom: 4px;
+}
+
+.about-valeur {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,.5);
+  border: 1px solid var(--about-border);
+  border-radius: 8px;
+  transition: border-color .2s, background .2s;
+}
+.about-valeur:hover {
+  border-color: rgba(26,107,255,.2);
+  background: rgba(255,255,255,.8);
+}
+
+.about-valeur-icon {
+  font-size: 18px; line-height: 1; flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.about-valeur-titre {
+  font-family: var(--ff-ui); font-size: 11px; font-weight: 700;
+  letter-spacing: .5px; color: var(--about-text);
+  margin-bottom: 3px;
+}
+
+.about-valeur-desc {
+  font-family: var(--ff-body); font-size: 11px; font-weight: 300;
+  color: var(--about-text-dim); line-height: 1.5;
 }
 
 .about-sep {
@@ -296,6 +362,8 @@
   .about-aside { text-align: center; }
   .about-pills { justify-content: center; }
   .about-socials { align-items: center; }
+  .about-valeurs { text-align: left; }
+  .about-photo-badges { flex-direction: row; justify-content: center; gap: 10px; }
 }
 
 @media (max-width: 640px) {

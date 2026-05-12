@@ -38,8 +38,8 @@ const CODE_LINES = [
   [
     { t: 'plain', v: '      ' },
     { t: 'tag', v: '<' }, { t: 'component', v: 'Services' },
-    { t: 'attr', v: ' onDevis' }, { t: 'plain', v: '={' },
-    { t: 'func', v: 'setOpen' }, { t: 'plain', v: '}' },
+    { t: 'attr', v: ' onRDV' }, { t: 'plain', v: '={' },
+    { t: 'func', v: 'openCalendly' }, { t: 'plain', v: '}' },
     { t: 'tag', v: ' />' },
   ],
   [
@@ -51,11 +51,10 @@ const CODE_LINES = [
   ],
   [
     { t: 'plain', v: '      ' },
-    { t: 'plain', v: '{' }, { t: 'var', v: 'open' }, { t: 'plain', v: ' && ' },
-    { t: 'tag', v: '<' }, { t: 'component', v: 'DevisModal' },
-    { t: 'attr', v: ' plan' }, { t: 'plain', v: '=' },
-    { t: 'string', v: '"sur-mesure"' },
-    { t: 'tag', v: ' />' }, { t: 'plain', v: '}' },
+    { t: 'tag', v: '<' }, { t: 'component', v: 'Chatbot' },
+    { t: 'attr', v: ' name' }, { t: 'plain', v: '=' },
+    { t: 'string', v: '"Digi"' },
+    { t: 'tag', v: ' />' },
   ],
   [
     { t: 'plain', v: '    ' },

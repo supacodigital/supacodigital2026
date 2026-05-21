@@ -39,7 +39,15 @@ export function useHeroPin(enabled = true) {
       const veil = document.querySelector(".hero-veil-pin");
       if (!heroContainer || !panel || !veil) return;
 
-      const vh = () => window.innerHeight;
+      // Hauteur de référence = --app-vh (posée par main.jsx), EXACTEMENT la
+      // même valeur que celle utilisée par le CSS (margin-top / transform du
+      // panneau). Indispensable sur mobile où window.innerHeight ≠ 100vh.
+      const vh = () => {
+        const v = parseFloat(
+          getComputedStyle(document.documentElement).getPropertyValue("--app-vh")
+        );
+        return v || window.innerHeight;
+      };
 
       if (isTouch) {
         // ── Mobile : volet sans scrub vidéo, mais recouvrement complet ──

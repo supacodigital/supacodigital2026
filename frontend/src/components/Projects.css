@@ -114,6 +114,49 @@
   border-bottom: 1px solid var(--proj-border);
 }
 
+/* ── État vide (catégorie sans projet) ───────────────── */
+.proj-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  padding: 56px 24px;
+  border-bottom: 1px solid var(--proj-border);
+  animation: proj-reveal .45s cubic-bezier(.22,1,.36,1) both;
+}
+.proj-empty-tag {
+  font-family: var(--ff-ui);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--blue);
+  background: rgba(26, 107, 255, 0.08);
+  border: 1px solid rgba(26, 107, 255, 0.2);
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+.proj-empty p {
+  font-size: 14px;
+  color: var(--proj-text-dim);
+  margin: 0;
+}
+.proj-empty-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ff-ui);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--blue);
+  text-decoration: none;
+  transition: gap 0.2s var(--ease-out, ease-out);
+}
+.proj-empty-cta:hover { gap: 12px; }
+
 /* ── Ligne cliquable (lien vers le site) ─────────────── */
 .proj-row {
   width: 100%;

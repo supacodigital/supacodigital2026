@@ -208,14 +208,14 @@ const projects = [
   },
 ];
 
-// Pills dynamiques : "Tous" + catégories présentes, dans l'ordre d'apparition
+// Pills fixes : toujours les mêmes catégories, même si certaines sont vides.
 const ALL = "Tous";
 const CATEGORIES = [
   ALL,
-  ...projects.reduce((acc, p) => {
-    if (!acc.includes(p.category)) acc.push(p.category);
-    return acc;
-  }, []),
+  "Site vitrine",
+  "E-commerce",
+  "App restaurant",
+  "Portfolio",
 ];
 
 export default function Projects() {
@@ -231,12 +231,16 @@ export default function Projects() {
     const el = pillRefs.current[filter];
     const list = pillsRef.current;
     if (!el || !list) return;
+    // offsetLeft = position dans le CONTENU (indépendante du scroll horizontal
+    // de la barre sur mobile) → l'indicateur reste aligné même barre scrollée.
     const move = () => {
-      const r = el.getBoundingClientRect();
-      const lr = list.getBoundingClientRect();
-      setIndicator({ left: r.left - lr.left, width: r.width });
+      setIndicator({ left: el.offsetLeft, width: el.offsetWidth });
+      // garde la pill active visible dans la barre scrollable
+      el.scrollIntoView({ inline: "nearest", block: "nearest" });
     };
     move();
+    // recalcule quand les polices sont prêtes (largeurs de pills définitives)
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(move);
     window.addEventListener("resize", move);
     return () => window.removeEventListener("resize", move);
   }, [filter]);
@@ -335,6 +339,17 @@ export default function Projects() {
             </a>
           );
         })}
+
+        {filtered.length === 0 && (
+          <div className="proj-empty">
+            <span className="proj-empty-tag">{filter}</span>
+            <p>Projets bientôt en ligne dans cette catégorie.</p>
+            <a href="#contact" className="proj-empty-cta">
+              <span>Discutons de votre projet</span>
+              <Icon.Arrow />
+            </a>
+          </div>
+        )}
       </div>
 
       {filtered.length > INITIAL && (

@@ -4,12 +4,15 @@
   position: relative;
   z-index: 4;
   background: var(--black); /* papier opaque pour recouvrir le hero */
-  margin-top: -100vh;
+  /* --app-vh = hauteur visible réelle (mise à jour par JS pour rester
+     synchro avec window.innerHeight, qui varie avec la barre d'URL mobile).
+     Fallback 100vh avant que le JS ne s'exécute. */
+  margin-top: calc(-1 * var(--app-vh, 100vh));
   padding-top: calc(120px + 24px);
   border-radius: 32px 32px 0 0;
   box-shadow: 0 -30px 70px rgba(5, 6, 12, 0.3);
   /* État initial avant GSAP : poussé hors écran (anti-flash) */
-  transform: translateY(100vh);
+  transform: translateY(var(--app-vh, 100vh));
 }
 /* Fallback reduced-motion : pas de volet, overlap statique léger */
 @media (prefers-reduced-motion: reduce) {

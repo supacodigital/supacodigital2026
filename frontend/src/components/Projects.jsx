@@ -225,6 +225,7 @@ export default function Projects() {
   // ── Indicateur glissant (repris de la navbar) ──
   const pillsRef = useRef(null);
   const pillRefs = useRef({});
+  const firstRun = useRef(true);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
 
   useEffect(() => {
@@ -233,14 +234,20 @@ export default function Projects() {
     if (!el || !list) return;
     // offsetLeft = position dans le CONTENU (indépendante du scroll horizontal
     // de la barre sur mobile) → l'indicateur reste aligné même barre scrollée.
-    const move = () => {
-      setIndicator({ left: el.offsetLeft, width: el.offsetWidth });
-      // garde la pill active visible dans la barre scrollable
-      el.scrollIntoView({ inline: "nearest", block: "nearest" });
-    };
+    const move = () => setIndicator({ left: el.offsetLeft, width: el.offsetWidth });
     move();
     // recalcule quand les polices sont prêtes (largeurs de pills définitives)
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(move);
+
+    // Garde la pill active visible : on défile la BARRE horizontalement
+    // (scrollLeft), JAMAIS la page verticalement. Et pas au 1er rendu (sinon
+    // la page sauterait vers la section au chargement).
+    if (!firstRun.current) {
+      const target = el.offsetLeft - (list.clientWidth - el.offsetWidth) / 2;
+      list.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
+    }
+    firstRun.current = false;
+
     window.addEventListener("resize", move);
     return () => window.removeEventListener("resize", move);
   }, [filter]);

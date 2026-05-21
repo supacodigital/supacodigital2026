@@ -8,6 +8,114 @@
   width: min(860px, calc(100vw - 40px));
   transition: top 0.3s, opacity 0.25s ease, translate 0.3s ease;
 }
+
+/* ── Intro (4 phases) : gros logo seul → la pill se forme autour →
+   elle monte se replacer → liens déployés ── */
+
+/* Wrap centré et compact (80px) pendant logo + forming. Le gros logo
+   déborde visuellement en phase 'logo' (pill invisible, overflow visible),
+   puis rentre dans la pill en 'forming'. La largeur du wrap ne change pas,
+   ce qui évite tout désalignement logo / pill. */
+.nav-wrap--intro-logo,
+.nav-wrap--intro-forming {
+  z-index: 9500;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  transition: top 0.8s var(--ease-in-out), transform 0.8s var(--ease-in-out),
+    width 0.7s var(--ease-in-out);
+}
+/* le gros logo peut déborder de la pill invisible */
+.nav-wrap--intro-logo .nav {
+  overflow: visible;
+}
+
+/* Phase 'logo' : gros logo seul, pill invisible, flou → net */
+.nav-wrap--intro-logo {
+  filter: blur(14px);
+  opacity: 0;
+  animation: nav-intro-appear 0.55s var(--ease-out) forwards;
+}
+@keyframes nav-intro-appear {
+  to {
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+/* La pill (background/bordure/ombre) est absente en 'logo', le contenu centré */
+.nav-wrap--intro-logo .nav,
+.nav-wrap--intro-forming .nav {
+  justify-content: center;
+  padding: 12px;
+}
+.nav-wrap--intro-logo .nav {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+/* Le logo est GROS au centre en phase 'logo' */
+.nav-wrap--intro-logo .nav-logo img {
+  transform: scale(2.6);
+  transform-origin: center;
+  transition: transform 0.7s var(--ease-out);
+}
+/* Phase 'forming' : le logo reprend sa taille, la pill apparaît autour */
+.nav-wrap--intro-forming .nav {
+  transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+}
+.nav-wrap--intro-forming .nav-logo img {
+  transform: scale(1);
+  transform-origin: center;
+  transition: transform 0.6s var(--ease-out);
+}
+
+/* Phase 'rising' : remonte ET s'élargit à sa taille complète */
+.nav-wrap--intro-rising {
+  z-index: 9500;
+  top: 20px;
+  transform: translate(-50%, 0);
+  width: min(860px, calc(100vw - 40px));
+  filter: blur(0);
+  opacity: 1;
+  transition: top 0.8s var(--ease-in-out), transform 0.8s var(--ease-in-out),
+    width 0.8s var(--ease-in-out);
+}
+.nav-wrap--intro-rising .nav {
+  justify-content: flex-start;
+}
+
+/* Liens + CTA + burger masqués jusqu'à 'done' */
+.nav-wrap--intro-logo .nav-links,
+.nav-wrap--intro-logo .nav-cta,
+.nav-wrap--intro-logo .nav-burger,
+.nav-wrap--intro-forming .nav-links,
+.nav-wrap--intro-forming .nav-cta,
+.nav-wrap--intro-forming .nav-burger,
+.nav-wrap--intro-rising .nav-links,
+.nav-wrap--intro-rising .nav-cta,
+.nav-wrap--intro-rising .nav-burger {
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+}
+/* En 'logo' et 'forming' : hors flux pour que SEUL le logo soit centré
+   dans la pill (sinon le flex centre logo+liens+cta ensemble). */
+.nav-wrap--intro-logo .nav-links,
+.nav-wrap--intro-logo .nav-cta,
+.nav-wrap--intro-logo .nav-burger,
+.nav-wrap--intro-forming .nav-links,
+.nav-wrap--intro-forming .nav-cta,
+.nav-wrap--intro-forming .nav-burger {
+  position: absolute;
+  visibility: hidden;
+}
+.nav-wrap--intro-done .nav-links,
+.nav-wrap--intro-done .nav-cta {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.45s 0.05s ease, transform 0.45s 0.05s var(--ease-out);
+}
 .nav-wrap.scrolled {
   top: 12px;
 }
@@ -22,102 +130,105 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 18px 12px 22px;
-  background: rgba(5, 6, 15, 0.72);
-  backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 14px 12px 22px;
+  background: rgba(247, 245, 240, 0.7);
+  backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid var(--border-soft);
   border-radius: 999px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 229, 255, 0.04);
+  box-shadow: 0 6px 28px rgba(22, 22, 26, 0.06);
   transition: background 0.3s, box-shadow 0.3s;
 }
 .nav-wrap.scrolled .nav {
-  background: rgba(5, 6, 15, 0.88);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 229, 255, 0.06);
+  background: rgba(247, 245, 240, 0.88);
+  box-shadow: 0 4px 20px rgba(22, 22, 26, 0.1);
 }
 
-/* ── Logo ──────────────────────────────────────────── */
+/* ── Logo (seul, en noir via filtre) ───────────────── */
 .nav-logo {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
   text-decoration: none;
 }
 .nav-logo img {
-  height: 30px;
+  height: 34px;
   width: auto;
+  display: block;
+  /* WebP coloré → silhouette encre, cohérent avec l'éditorial */
+  filter: brightness(0);
+  transition: opacity 0.2s var(--ease-out);
 }
-.nav-logo-text {
-  font-family: var(--ff-ui);
-  font-weight: 800;
-  font-size: 15px;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: var(--white);
-}
-.nav-logo-text span {
-  color: var(--cyan);
+.nav-logo:hover img {
+  opacity: 0.7;
 }
 
-/* ── Links ─────────────────────────────────────────── */
+/* ── Links + indicateur glissant ───────────────────── */
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 4px;
   list-style: none;
+  position: relative;
+}
+/* Pill highlight qui suit le lien actif / survolé */
+.nav-indicator {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 34px;
+  margin-top: -17px;
+  border-radius: 999px;
+  background: var(--white-faint);
+  pointer-events: none;
+  transition: transform 0.34s var(--ease-out), width 0.34s var(--ease-out),
+    opacity 0.22s ease;
+  will-change: transform, width;
+  z-index: 0;
 }
 .nav-links a {
-  font-family: var(--ff-ui);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--white);
-  text-decoration: none;
   position: relative;
-  transition: color 0.2s;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--ff-ui);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--white-dim);
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  transition: color 0.2s var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
 }
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  bottom: -3px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: var(--cyan);
-  transition: width 0.3s;
-}
-.nav-links a:hover,
-.nav-links a.nav-link--active {
-  color: var(--cyan);
-}
-.nav-links a:hover::after,
-.nav-links a.nav-link--active::after {
-  width: 100%;
-}
-.nav-links a.nav-link--active {
-  text-shadow: 0 0 12px rgba(0,229,255,.4);
+.nav-links a:hover {
+  color: var(--white);
 }
 
 /* ── CTA button ────────────────────────────────────── */
 .nav-cta {
   font-family: var(--ff-ui);
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-  color: var(--black);
-  background: var(--accent-gradient);
-  border: none;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #fff;
+  background: var(--white);
+  border: 1px solid var(--white);
   padding: 9px 20px;
   cursor: pointer;
   text-decoration: none;
   border-radius: 999px;
-  transition: opacity 0.2s, box-shadow 0.2s;
+  transition: background 0.2s, border-color 0.2s,
+    transform 0.16s var(--ease-out);
   white-space: nowrap;
 }
 .nav-cta:hover {
-  opacity: 0.85;
-  box-shadow: 0 0 20px var(--cyan-glow);
+  background: var(--cyan);
+  border-color: var(--cyan);
+}
+.nav-cta:active {
+  transform: scale(0.96);
 }
 
 /* ── Burger ────────────────────────────────────────── */
@@ -136,7 +247,7 @@
   transition: background 0.2s;
 }
 .nav-burger:hover {
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(22, 22, 26, 0.06);
 }
 .nav-burger svg {
   width: 20px;
@@ -156,18 +267,25 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(5, 6, 15, 0.98);
+  background: var(--black);
   backdrop-filter: blur(32px);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: max(20px, env(safe-area-inset-top)) 24px max(32px, env(safe-area-inset-bottom));
+  padding: max(20px, env(safe-area-inset-top)) 24px
+    max(32px, env(safe-area-inset-bottom));
   overflow-y: auto;
-  animation: mobile-fullscreen-in 0.22s cubic-bezier(.4, 0, .2, 1);
+  animation: mobile-fullscreen-in 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 @keyframes mobile-fullscreen-in {
-  from { opacity: 0; transform: translateY(-10px); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ── Header logo + close dans le menu ── */
@@ -182,8 +300,8 @@
 }
 
 .nav-mobile-close {
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(22, 22, 26, 0.05);
+  border: 1px solid var(--border);
   color: var(--white);
   cursor: pointer;
   width: 44px;
@@ -196,9 +314,16 @@
   -webkit-tap-highlight-color: transparent;
   flex-shrink: 0;
 }
-.nav-mobile-close:hover { background: rgba(255, 255, 255, 0.12); }
-.nav-mobile-close:active { transform: scale(.92); }
-.nav-mobile-close svg { width: 20px; height: 20px; }
+.nav-mobile-close:hover {
+  background: rgba(22, 22, 26, 0.1);
+}
+.nav-mobile-close:active {
+  transform: scale(0.92);
+}
+.nav-mobile-close svg {
+  width: 20px;
+  height: 20px;
+}
 
 .nav-mobile ul {
   list-style: none;
@@ -208,11 +333,11 @@
   margin-bottom: 24px;
 }
 .nav-mobile a {
-  font-family: var(--ff-ui);
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
+  font-family: var(--ff-display);
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-transform: none;
   color: var(--white);
   text-decoration: none;
   padding: 16px 0;
@@ -224,8 +349,13 @@
   -webkit-tap-highlight-color: transparent;
 }
 .nav-mobile a:hover,
-.nav-mobile a:focus-visible { color: var(--cyan); }
-.nav-mobile a:active { color: var(--cyan); opacity: .75; }
+.nav-mobile a:focus-visible {
+  color: var(--cyan);
+}
+.nav-mobile a:active {
+  color: var(--cyan);
+  opacity: 0.75;
+}
 
 .nav-mobile .nav-cta {
   width: 100%;
@@ -235,7 +365,7 @@
   font-size: 14px;
   text-align: center;
   white-space: normal;
-  color: var(--black);
+  color: #fff;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -248,12 +378,31 @@
   .nav-wrap.scrolled {
     top: 8px;
   }
-  .nav {
-    padding: 10px 12px 10px 16px;
+  /* Intro mobile : gros logo centré → pill se forme → monte en s'élargissant */
+  .nav-wrap--intro-logo,
+  .nav-wrap--intro-forming {
+    top: 50%;
+    width: 80px;
   }
-  .nav-links,
-  .nav-cta {
+  .nav-wrap--intro-rising {
+    top: 12px;
+    width: calc(100vw - 28px);
+  }
+  .nav {
+    padding: 10px 10px 10px 16px;
+    gap: 8px;
+  }
+  .nav-links {
     display: none;
+  }
+  /* CTA visible hors du menu burger, en version compacte */
+  .nav-cta {
+    display: inline-flex;
+    margin-left: auto;
+    padding: 9px 16px;
+    font-size: 13px;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
   }
   .nav-burger {
     display: flex;

@@ -1,79 +1,84 @@
-import { useEffect, useRef } from "react";
 import { Icon } from "../icons";
-import MeshBg from "./MeshBg";
 import { useAnalytics } from "../useAnalytics";
+import { useGoToContact } from "../useGoToContact";
+import VideoScrub from "./VideoScrub";
 
-export default function Hero({ onOpenCalendly }) {
-  const { trackHeroCTA, trackCalendlyOpen } = useAnalytics()
-  const bgRef = useRef(null)
+export default function Hero() {
+  const { trackHeroCTA } = useAnalytics();
+  const goToContact = useGoToContact();
 
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const onScroll = () => {
-      if (!bgRef.current) return
-      const y = window.scrollY
-      bgRef.current.style.transform = `translateY(${y * 0.25}px)`
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
   return (
     <section className="hero" id="accueil">
-      <div className="hero-bg" ref={bgRef}>
-        <MeshBg />
-        <div className="hero-bg-noise" />
-      </div>
-      <div className="hero-content">
-        <h1 className="hero-title">
-          <span className="hero-title-outline">Plus de</span>
-          <span className="hero-title-solid">Clients</span>
-          <span className="hero-title-outline">Grâce au Web</span>
-        </h1>
-        <p className="hero-sub">Votre site web, votre meilleur commercial.</p>
-        <p className="hero-desc">
-          Agence web dans le Pays de Gex, Supaco Digital conçoit des sites et applications qui attirent,
-          convainquent et convertissent — pour que les PME, indépendants et
-          e-commerces gagnent de nouveaux clients chaque jour.
-        </p>
-      </div>
-      <div className="hero-right">
-        <div className="hero-badge">Agence web · Pays de Gex · Site web</div>
-        <div className="hero-stats">
-          <div className="hero-stat">
-            <div className="hero-stat-num">20+</div>
-            <div className="hero-stat-lbl">Projets livrés</div>
+      <VideoScrub
+        src="/hero.mp4"
+        poster="/hero-poster.jpg"
+        scrollHeight="220vh"
+        className="hero-scrub"
+      >
+        {/* Voiles de lisibilité au-dessus de la vidéo */}
+        <div className="hero-veil" />
+        {/* Voile d'assombrissement piloté pendant l'effet volet (About qui remonte) */}
+        <div className="hero-veil-pin" />
+
+        <div className="hero-overlay">
+          <h1 className="hero-title">
+            <span className="hero-line">
+              <span>Votre site web,</span>
+            </span>
+            <span className="hero-line">
+              <span>votre meilleur</span>
+            </span>
+            <span className="hero-line">
+              <span>
+                <em>commercial</em>.
+              </span>
+            </span>
+          </h1>
+
+          <p className="hero-desc">
+            Sites et applications qui attirent, convainquent et convertissent —
+            pour que les PME, indépendants et e-commerces du
+            Pays&nbsp;de&nbsp;Gex gagnent de nouveaux clients chaque jour.
+          </p>
+
+          <div className="hero-actions">
+            <a
+              href="#contact"
+              className="hero-btn hero-btn--primary"
+              onClick={() => trackHeroCTA("demarrer_projet")}
+            >
+              <span>Démarrer mon projet</span>
+              <Icon.Arrow />
+            </a>
+            <button
+              onClick={() => {
+                trackHeroCTA("appel_gratuit");
+                goToContact();
+              }}
+              className="hero-btn hero-btn--ghost"
+            >
+              <span>Appel gratuit 30 min</span>
+            </button>
           </div>
-          <div className="hero-stat">
-            <div className="hero-stat-num">100%</div>
-            <div className="hero-stat-lbl">Clients satisfaits</div>
-          </div>
-          <div className="hero-stat">
-            <div className="hero-stat-num">72h</div>
-            <div className="hero-stat-lbl">Délai vitrine</div>
+
+          <div className="hero-proof">
+            <div className="hero-proof-rating">
+              <span className="hero-proof-stars">★★★★★</span>
+              <span className="hero-proof-score">5.0</span>
+              <span className="hero-proof-src">· 5 avis Google</span>
+            </div>
+            <span className="hero-proof-sep" />
+            <div className="hero-proof-stats">
+              <div className="hero-stat">
+                <strong>20+</strong> projets livrés
+              </div>
+              <div className="hero-stat">
+                <strong>72h</strong> délai vitrine
+              </div>
+            </div>
           </div>
         </div>
-        <div className="hero-actions">
-          <a
-            href="#contact"
-            className="btn-primary"
-            onClick={() => trackHeroCTA('demarrer_projet')}
-          >
-            <span>Démarrer mon projet</span>
-            <Icon.Arrow />
-          </a>
-          <button
-            onClick={() => { trackCalendlyOpen('hero'); onOpenCalendly() }}
-            className="btn-ghost"
-          >
-            <span>Appel gratuit 30 min</span>
-            <Icon.Arrow />
-          </button>
-        </div>
-      </div>
-      <div className="hero-scroll">
-        <div className="hero-scroll-line" />
-        <span>Découvrir</span>
-      </div>
+      </VideoScrub>
     </section>
   );
 }

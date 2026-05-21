@@ -31,14 +31,14 @@
 }
 .footer-logo img { width: 28px; height: 28px; object-fit: contain; }
 .footer-logo-text {
-  font-family: var(--ff-ui);
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: .5px;
-  text-transform: uppercase;
+  font-family: var(--ff-display);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--white);
 }
-.footer-logo-text span { color: var(--cyan); }
+.footer-logo-text span { color: var(--cyan); font-style: italic; }
 
 .footer-desc {
   font-size: 12.5px;
@@ -52,8 +52,8 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.08);
+  background: #fff;
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 10px 14px;
   text-decoration: none;
@@ -61,8 +61,8 @@
   transition: border-color .2s, background .2s;
 }
 .footer-google-badge:hover {
-  border-color: rgba(255,255,255,.18);
-  background: rgba(255,255,255,.07);
+  border-color: var(--white-dim);
+  background: #fff;
 }
 
 .footer-google-icon { width: 22px; height: 22px; flex-shrink: 0; }
@@ -84,7 +84,7 @@
 .footer-google-score {
   font-family: var(--ff-ui);
   font-size: 13px;
-  font-weight: 900;
+  font-weight: 600;
   color: var(--white);
 }
 
@@ -127,11 +127,11 @@
 
 .footer-col-title {
   font-family: var(--ff-ui);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--white-dim);
+  color: var(--white);
   margin-bottom: 16px;
 }
 
@@ -143,8 +143,8 @@
 }
 
 .footer-col-links a {
-  font-size: 13px;
-  color: rgba(232,238,245,.5);
+  font-size: 14px;
+  color: var(--white-dim);
   text-decoration: none;
   transition: color .15s;
   display: inline-flex;
@@ -174,8 +174,8 @@
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  font-size: 12.5px;
-  color: rgba(232,238,245,.5);
+  font-size: 13.5px;
+  color: var(--white-dim);
 }
 
 .footer-contact-icon {
@@ -185,7 +185,7 @@
 }
 
 .footer-contact-list a {
-  color: rgba(232,238,245,.5);
+  color: var(--white-dim);
   text-decoration: none;
   transition: color .15s;
 }
@@ -200,14 +200,14 @@
 
 .footer-zone-pill {
   font-family: var(--ff-ui);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .5px;
-  color: rgba(232,238,245,.4);
-  background: rgba(232,238,245,.04);
-  border: 1px solid rgba(232,238,245,.08);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--white-dim);
+  background: var(--black-card);
+  border: 1px solid var(--border);
   border-radius: 999px;
-  padding: 3px 10px;
+  padding: 4px 11px;
   white-space: nowrap;
 }
 
@@ -229,10 +229,10 @@
 
 .footer-copy {
   font-family: var(--ff-ui);
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: rgba(232,238,245,.3);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--white-dim);
 }
 .footer-copy span { color: var(--cyan); }
 
@@ -248,18 +248,18 @@
   cursor: pointer;
   padding: 0;
   font-family: var(--ff-ui);
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: rgba(232,238,245,.3);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--white-dim);
   transition: color .15s;
 }
 .footer-legal button:hover { color: var(--cyan); }
 
 .footer-made {
-  font-size: 11px;
-  color: rgba(232,238,245,.2);
-  letter-spacing: .5px;
+  font-size: 12px;
+  color: var(--white-dim);
+  letter-spacing: 0;
 }
 .footer-made span { color: #ff4d6d; }
 

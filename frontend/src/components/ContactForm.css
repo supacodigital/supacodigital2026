@@ -1,34 +1,30 @@
-/* ── Wrapper ── */
+/* ── Wrapper ──
+   Le fond / la bordure / le radius / le padding sont portés par la moitié
+   beige de la carte split (.contact-side--beige). Ici on ne garde que le
+   positionnement. */
 .contact-form-wrap {
-  background: rgba(10, 11, 22, 0.85);
-  border: 1px solid rgba(0, 229, 255, 0.12);
-  border-radius: 16px;
-  padding: 36px 32px;
   position: relative;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(0, 229, 255, 0.06);
 }
 
 /* ── Titre ── */
 .form-title {
-  font-family: var(--ff-ui);
-  font-weight: 900;
-  font-size: 18px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: #e8eef5;
+  font-family: var(--ff-display);
+  font-weight: 500;
+  font-size: 24px;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  color: var(--white);
   margin-bottom: 24px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 .form-title::before {
   content: '';
   display: inline-block;
   width: 3px;
-  height: 18px;
-  background: linear-gradient(180deg, var(--cyan), var(--blue));
+  height: 20px;
+  background: var(--cyan);
   border-radius: 99px;
   flex-shrink: 0;
 }
@@ -47,50 +43,50 @@
 .form-field label {
   display: block;
   font-family: var(--ff-ui);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: rgba(0, 229, 255, 0.5);
-  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--white-dim);
+  margin-bottom: 7px;
 }
 .form-field input,
 .form-field select,
 .form-field textarea {
   width: 100%;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #e8eef5;
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--white);
   font-family: var(--ff-body);
-  font-size: 14px;
+  font-size: 15px;
   padding: 12px 14px;
   outline: none;
-  border-radius: 8px;
+  border-radius: 10px;
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
   appearance: none;
   -webkit-appearance: none;
 }
 .form-field input::placeholder,
 .form-field textarea::placeholder {
-  color: rgba(232, 238, 245, 0.2);
+  color: rgba(22, 22, 26, 0.32);
 }
 .form-field select {
-  color: rgba(232, 238, 245, 0.55);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(0,229,255,0.4)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  color: var(--white);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(22,22,26,0.45)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
   padding-right: 36px;
 }
 .form-field select option {
-  background: #0a0b16;
-  color: #e8eef5;
+  background: #fff;
+  color: var(--white);
 }
 .form-field input:focus,
 .form-field select:focus,
 .form-field textarea:focus {
-  border-color: rgba(0, 229, 255, 0.4);
-  background: rgba(0, 229, 255, 0.04);
-  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.08);
+  border-color: var(--cyan);
+  background: #fff;
+  box-shadow: 0 0 0 3px var(--cyan-dim);
 }
 .form-field textarea {
   resize: vertical;
@@ -105,9 +101,9 @@
   gap: 10px;
   margin-bottom: 14px;
   padding: 12px 14px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 8px;
+  background: var(--black-mid);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
 }
 .form-consent input[type="checkbox"] {
   width: 16px;
@@ -118,8 +114,8 @@
   cursor: pointer;
 }
 .form-consent label {
-  font-size: 11px;
-  color: rgba(232, 238, 245, 0.4);
+  font-size: 12px;
+  color: var(--white-dim);
   line-height: 1.6;
   cursor: pointer;
   font-family: var(--ff-body);
@@ -150,23 +146,24 @@
   justify-content: center;
   gap: 10px;
   font-family: var(--ff-ui);
-  font-weight: 800;
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #0a0b16;
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  border: none;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #fff;
+  background: var(--white);
+  border: 1px solid var(--white);
   padding: 16px;
   cursor: pointer;
-  border-radius: 8px;
-  transition: box-shadow 0.3s, transform 0.2s, opacity 0.2s;
+  border-radius: 999px;
+  transition: background 0.25s var(--ease-out), transform 0.16s var(--ease-out), opacity 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
 .form-submit:hover {
-  box-shadow: 0 0 32px rgba(0, 229, 255, 0.35), 0 4px 16px rgba(0, 0, 0, 0.3);
-  transform: translateY(-1px);
+  background: var(--cyan);
+  border-color: var(--cyan);
 }
+.form-submit:active { transform: scale(0.98); }
 .form-submit:disabled {
   opacity: 0.35;
   cursor: not-allowed;
@@ -185,7 +182,7 @@
   width: 40%;
   height: 12px;
   border-radius: 6px;
-  background: linear-gradient(90deg, rgba(10,11,22,0.2) 25%, rgba(10,11,22,0.4) 50%, rgba(10,11,22,0.2) 75%);
+  background: linear-gradient(90deg, rgba(255,255,255,0.25) 25%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0.25) 75%);
   background-size: 200% 100%;
   animation: skeleton-shimmer 1.4s ease-in-out infinite;
 }
@@ -241,35 +238,32 @@
   to   { transform: scale(1); opacity: 1; }
 }
 .form-success-title {
-  font-family: var(--ff-ui);
-  font-weight: 900;
-  font-size: 26px;
-  text-transform: uppercase;
-  letter-spacing: -0.5px;
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family: var(--ff-display);
+  font-weight: 500;
+  font-size: 30px;
+  text-transform: none;
+  letter-spacing: -0.02em;
+  color: var(--cyan);
   margin-bottom: 10px;
 }
 .form-success-sub {
-  color: rgba(232, 238, 245, 0.6);
+  color: var(--white-dim);
   font-size: 15px;
   line-height: 1.6;
   margin-bottom: 24px;
 }
-.form-success-sub strong { color: #e8eef5; font-weight: 700; }
+.form-success-sub strong { color: var(--white); font-weight: 600; }
 .form-success-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-family: var(--ff-ui);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: rgba(232, 238, 245, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--white-dim);
+  border: 1px solid var(--border);
   padding: 6px 14px;
   border-radius: 999px;
 }
@@ -286,10 +280,6 @@
 
 /* ── Responsive mobile ── */
 @media (max-width: 640px) {
-  .contact-form-wrap {
-    padding: 20px 16px;
-    border-radius: 12px;
-  }
   .form-title {
     font-size: 14px;
     margin-bottom: 18px;

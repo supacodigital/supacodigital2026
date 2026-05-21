@@ -1,5 +1,5 @@
 .faq {
-  background: #05060f;
+  background: var(--black);
   isolation: isolate;
 }
 
@@ -17,8 +17,8 @@
 }
 
 .faq-desc {
-  font-size: 15px;
-  color: rgba(232, 238, 245, .5);
+  font-size: 16px;
+  color: var(--white-dim);
   margin-top: 12px;
   line-height: 1.7;
 }
@@ -30,13 +30,14 @@
   flex-direction: column;
   gap: 0;
   list-style: none;
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid var(--border);
   border-radius: 16px;
   overflow: hidden;
+  background: var(--black-card);
 }
 
 .faq-item {
-  border-bottom: 1px solid rgba(255,255,255,.07);
+  border-bottom: 1px solid var(--border-soft);
   transition: background .2s;
 }
 
@@ -45,7 +46,7 @@
 }
 
 .faq-item--open {
-  background: rgba(26,107,255,.05);
+  background: var(--cyan-faint);
 }
 
 .faq-question {
@@ -60,28 +61,28 @@
   cursor: pointer;
   text-align: left;
   font-family: var(--ff-ui);
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 500;
   color: var(--white);
   line-height: 1.4;
   transition: color .2s;
 }
 
 .faq-item--open .faq-question {
-  color: #00e5ff;
+  color: var(--cyan);
 }
 
 .faq-icon {
   flex-shrink: 0;
   font-size: 22px;
   font-weight: 300;
-  color: rgba(232,238,245,.4);
+  color: var(--white-dim);
   line-height: 1;
   transition: color .2s, transform .3s;
 }
 
 .faq-item--open .faq-icon {
-  color: #00e5ff;
+  color: var(--cyan);
 }
 
 .faq-answer {
@@ -97,9 +98,9 @@
 }
 
 .faq-answer p {
-  font-size: 14px;
-  color: rgba(232,238,245,.6);
-  line-height: 1.85;
+  font-size: 15px;
+  color: var(--white-dim);
+  line-height: 1.8;
 }
 
 @media (max-width: 640px) {

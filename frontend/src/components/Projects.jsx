@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Icon } from "../icons";
-import LightBg from "./LightBg";
-import CaseStudyModal from "./CaseStudyModal";
 import { trackEvent } from "../useAnalytics";
 
 const projects = [
   {
     num: "01",
     name: "Kekosan",
+    thumb: "/projets/kekosan.webp",
+    category: "App restaurant",
     tags: ["App restaurant"],
     placeholder: "KK",
     logo: "/logo/logokekosan.webp",
@@ -32,6 +32,8 @@ const projects = [
   {
     num: "02",
     name: "MB Patrimoine",
+    thumb: "/projets/mbpatrimoine.webp",
+    category: "Site vitrine",
     tags: ["Site Vitrine"],
     placeholder: "MB",
     logo: "/logo/mbpatrimoine.webp",
@@ -52,6 +54,8 @@ const projects = [
   {
     num: "03",
     name: "Bellifood",
+    thumb: "/projets/bellifood.webp",
+    category: "Site vitrine",
     tags: ["Site Vitrine"],
     placeholder: "BF",
     logo: "/logo/belli.logo.webp",
@@ -72,6 +76,8 @@ const projects = [
   {
     num: "04",
     name: "Sabai Thoiry",
+    thumb: "/projets/sabai.webp",
+    category: "App restaurant",
     tags: ["App restaurant"],
     placeholder: "ST",
     logo: "/logo/logosabai.webp",
@@ -96,6 +102,8 @@ const projects = [
   {
     num: "05",
     name: "Dépannage Gémeaux",
+    thumb: "/projets/depannage.webp",
+    category: "Site vitrine",
     tags: ["Site Vitrine"],
     placeholder: "DG",
     logo: "/logo/depannagegemeaux.svg",
@@ -116,6 +124,8 @@ const projects = [
   {
     num: "06",
     name: "Yojeme",
+    thumb: "/projets/yojeme.webp",
+    category: "Site vitrine",
     tags: ["Site Vitrine"],
     placeholder: "YJ",
     logo: "/logo/yojeme.webp",
@@ -136,6 +146,8 @@ const projects = [
   {
     num: "07",
     name: "Photographe",
+    thumb: "/projets/photographe.webp",
+    category: "Portfolio",
     tags: ["Portfolio"],
     placeholder: "PH",
     desc: "Portfolio en ligne pour un photographe professionnel. Galerie immersive, présentation des prestations et prise de rendez-vous.",
@@ -155,7 +167,9 @@ const projects = [
   {
     num: "08",
     name: "Restaurant Lyon",
-    tags: ["Portfolio"],
+    thumb: "/projets/restaurant-lyon.webp",
+    category: "Site vitrine",
+    tags: ["Site Vitrine"],
     placeholder: "RL",
     desc: "Site vitrine pour un restaurant. Présentation de la carte, ambiance du lieu et réservation en ligne.",
     url: "https://restaurant-t.vercel.app/",
@@ -171,20 +185,75 @@ const projects = [
       stack: ["React", "CSS animations", "Design sur mesure"],
     },
   },
+  {
+    num: "09",
+    name: "LM Prestige",
+    thumb: "/projets/lm-prestige.webp",
+    category: "Portfolio",
+    tags: ["Portfolio"],
+    placeholder: "LM",
+    desc: "Plateforme de location de véhicules en ligne. Recherche par dates et lieu de prise en charge, catalogue par catégories et réservation en quelques clics.",
+    url: "https://lm-prestige.vercel.app/",
+    year: "2026",
+    caseStudy: {
+      challenge: "LM Prestige, loueur de véhicules dans le Pays de Gex, avait besoin d'une présence en ligne qui permette aux clients de consulter la flotte et de réserver sans passer par le téléphone — tout en valorisant une image premium face aux grandes enseignes de location.",
+      solution: "Plateforme web sur mesure avec moteur de recherche par dates et lieu (Gex, Ferney-Voltaire, Divonne, Aéroport de Genève), catalogue filtrable par catégorie (citadine, berline, SUV, utilitaire, premium) et parcours de réservation fluide. Design soigné, animations et mise en avant des tarifs clairs.",
+      metrics: [
+        { value: "6+", label: "Véhicules en flotte" },
+        { value: "7j/7", label: "Réservation en ligne" },
+        { value: "< 2 sem", label: "Délai de livraison" },
+      ],
+      stack: ["React", "Framer Motion", "Réservation en ligne", "CSS sur mesure"],
+    },
+  },
+];
+
+// Pills dynamiques : "Tous" + catégories présentes, dans l'ordre d'apparition
+const ALL = "Tous";
+const CATEGORIES = [
+  ALL,
+  ...projects.reduce((acc, p) => {
+    if (!acc.includes(p.category)) acc.push(p.category);
+    return acc;
+  }, []),
 ];
 
 export default function Projects() {
-  const [active, setActive] = useState(null);
   const [showAll, setShowAll] = useState(false);
-  const [caseStudy, setCaseStudy] = useState(null);
+  const [filter, setFilter] = useState(ALL);
 
-  const toggle = (i) => setActive(active === i ? null : i);
-  const visible = showAll ? projects : projects.slice(0, 3);
+  // ── Indicateur glissant (repris de la navbar) ──
+  const pillsRef = useRef(null);
+  const pillRefs = useRef({});
+  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
+
+  useEffect(() => {
+    const el = pillRefs.current[filter];
+    const list = pillsRef.current;
+    if (!el || !list) return;
+    const move = () => {
+      const r = el.getBoundingClientRect();
+      const lr = list.getBoundingClientRect();
+      setIndicator({ left: r.left - lr.left, width: r.width });
+    };
+    move();
+    window.addEventListener("resize", move);
+    return () => window.removeEventListener("resize", move);
+  }, [filter]);
+
+  const selectFilter = (cat) => {
+    if (cat === filter) return;
+    setFilter(cat);
+    setShowAll(false);
+  };
+
+  const filtered =
+    filter === ALL ? projects : projects.filter((p) => p.category === filter);
   const INITIAL = 3;
+  const visible = showAll ? filtered : filtered.slice(0, INITIAL);
 
   return (
     <section className="section projects" id="projets">
-      <LightBg variant="a" />
       <div className="proj-header">
         <div>
           <div className="section-label">Réalisations</div>
@@ -198,131 +267,94 @@ export default function Projects() {
         </a>
       </div>
 
-      <div className="proj-list">
-        {visible.map((p, i) => {
-          const isOpen = active === i;
-          const isNew = showAll && i >= INITIAL;
+      {/* ── Filtre par catégorie (pill glissante) ── */}
+      <div className="proj-filter" role="tablist" aria-label="Filtrer par type de projet" ref={pillsRef}>
+        <span
+          className="proj-filter-indicator"
+          aria-hidden="true"
+          style={{
+            transform: `translateX(${indicator.left}px)`,
+            width: `${indicator.width}px`,
+          }}
+        />
+        {CATEGORIES.map((cat) => {
+          const isActive = filter === cat;
           return (
-            <div
-              key={p.num}
-              className={`proj-item${isOpen ? " proj-item--open" : ""}${isNew ? " proj-item--reveal" : ""}`}
-              style={isNew ? { '--reveal-delay': `${(i - INITIAL) * 80}ms` } : undefined}
+            <button
+              key={cat}
+              role="tab"
+              aria-selected={isActive}
+              ref={(el) => {
+                pillRefs.current[cat] = el;
+              }}
+              className={`proj-filter-pill${isActive ? " proj-filter-pill--active" : ""}`}
+              onClick={() => selectFilter(cat)}
             >
-              {/* ── Ligne cliquable ── */}
-              <button
-                className="proj-row"
-                onClick={() => toggle(i)}
-                aria-expanded={isOpen}
-              >
-                <span className="proj-row-num">{p.num}</span>
-                <span className="proj-row-name">{p.name}</span>
-                <div className="proj-row-tags">
-                  {p.tags.map((t) => (
-                    <span key={t} className="proj-tag">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-                <span className="proj-row-year">{p.year}</span>
-                <span className="proj-row-arrow">
-                  <Icon.Arrow />
-                </span>
-              </button>
-
-              {/* ── Contenu expandable ── */}
-              <div className="proj-panel">
-                <div className="proj-panel-inner">
-                  {/* Visuel */}
-                  <div className="proj-visual">
-                    {p.logo ? (
-                      <img
-                        src={p.logo}
-                        alt={p.name}
-                        className="proj-logo"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    ) : (
-                      <div className="proj-placeholder">{p.placeholder}</div>
-                    )}
-                    <a
-                      href={p.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="proj-visual-link"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      Voir le site <Icon.Arrow />
-                    </a>
-                  </div>
-                  {/* Infos */}
-                  <div className="proj-details">
-                    <div className="proj-details-tags">
-                      {p.tags.map((t) => (
-                        <span key={t} className="proj-tag">
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                    <h3 className="proj-details-name">{p.name}</h3>
-                    <p className="proj-details-desc">{p.desc}</p>
-                    <div className="proj-details-actions">
-                      <a
-                        href={p.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="proj-details-cta"
-                        onClick={() => trackEvent('project_site_click', { project: p.name })}
-                      >
-                        <span>Voir le site</span>
-                        <Icon.Arrow />
-                      </a>
-                      <button
-                        className="proj-details-cs"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setCaseStudy(p);
-                          trackEvent('project_click', { project: p.name });
-                        }}
-                      >
-                        <span>Case study</span>
-                        <Icon.Arrow />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              {cat}
+            </button>
           );
         })}
       </div>
 
-      <button
-        className="proj-show-more"
-        onClick={() => {
-          setShowAll((s) => !s);
-          setActive(null);
-        }}
-      >
-        <span>
-          {showAll
-            ? "Voir moins"
-            : `Voir les ${projects.length - 3} autres projets`}
-        </span>
-        <span
-          className={`proj-show-more-arrow${
-            showAll ? " proj-show-more-arrow--up" : ""
-          }`}
-        >
-          <Icon.Arrow />
-        </span>
-      </button>
+      <div className="proj-list">
+        {visible.map((p, i) => {
+          // Au changement de filtre : tous les items entrent en cascade.
+          // Au "voir plus" : seuls les items au-delà des 3 premiers entrent.
+          const revealFrom = showAll ? INITIAL : 0;
+          const isNew = i >= revealFrom;
+          return (
+            <a
+              key={`${filter}-${p.num}`}
+              href={p.url}
+              target="_blank"
+              rel="noreferrer"
+              className={`proj-item proj-row${isNew ? " proj-item--reveal" : ""}`}
+              style={isNew ? { '--reveal-delay': `${(i - revealFrom) * 70}ms` } : undefined}
+              onClick={() => trackEvent('project_site_click', { project: p.name })}
+            >
+              <span className="proj-row-thumb" aria-hidden="true">
+                {p.thumb ? (
+                  <img src={p.thumb} alt="" loading="lazy" decoding="async" />
+                ) : (
+                  <span className="proj-row-thumb-ph">{p.placeholder}</span>
+                )}
+              </span>
+              <span className="proj-row-num">{p.num}</span>
+              <span className="proj-row-name">{p.name}</span>
+              <div className="proj-row-tags">
+                {p.tags.map((t) => (
+                  <span key={t} className="proj-tag">
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <span className="proj-row-year">{p.year}</span>
+              <span className="proj-row-arrow">
+                <Icon.Arrow />
+              </span>
+            </a>
+          );
+        })}
+      </div>
 
-      {caseStudy && (
-        <CaseStudyModal
-          project={caseStudy}
-          onClose={() => setCaseStudy(null)}
-        />
+      {filtered.length > INITIAL && (
+        <button
+          className="proj-show-more"
+          onClick={() => setShowAll((s) => !s)}
+        >
+          <span>
+            {showAll
+              ? "Voir moins"
+              : `Voir les ${filtered.length - INITIAL} autres projets`}
+          </span>
+          <span
+            className={`proj-show-more-arrow${
+              showAll ? " proj-show-more-arrow--up" : ""
+            }`}
+          >
+            <Icon.Arrow />
+          </span>
+        </button>
       )}
     </section>
   );

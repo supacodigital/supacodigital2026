@@ -1,19 +1,24 @@
 import { Icon } from "../icons";
 import ContactForm from "./ContactForm";
 import MeshBg from "./MeshBg";
-import { useAnalytics } from "../useAnalytics";
+import { trackEvent } from "../useAnalytics";
 import { useReveal } from "../useReveal";
 
-export default function Contact({ onOpenCalendly }) {
-  const { trackCalendlyOpen } = useAnalytics()
+export default function Contact() {
   const infoRef = useReveal(0.1)
   const formRef = useReveal(0.1)
+
+  // Le formulaire est juste à côté : place le curseur dans le 1er champ.
+  const focusForm = () => {
+    const el = document.getElementById("f-name")
+    if (el) { el.focus(); el.scrollIntoView({ block: "center", behavior: "smooth" }) }
+  }
 
   return (
     <section className="section contact" id="contact">
       <MeshBg />
-      <div className="contact-inner">
-        <div className="contact-info reveal-left" ref={infoRef}>
+      <div className="contact-inner contact-card">
+        <div className="contact-info contact-side--blue reveal-left" ref={infoRef}>
           <div className="section-label">Contact</div>
           <h2 className="section-title">
             Démarrons <em>ensemble</em>
@@ -62,7 +67,7 @@ export default function Contact({ onOpenCalendly }) {
             </a>
           </div>
           <button
-            onClick={() => { trackCalendlyOpen('contact'); onOpenCalendly() }}
+            onClick={() => { trackEvent('contact_cta_focus_form'); focusForm() }}
             className="contact-calendly"
           >
             <div className="contact-cal-icon">
@@ -77,7 +82,7 @@ export default function Contact({ onOpenCalendly }) {
             <Icon.Arrow />
           </button>
         </div>
-        <div className="contact-form-wrap reveal-right" ref={formRef}>
+        <div className="contact-form-wrap contact-side--beige reveal-right" ref={formRef}>
           <ContactForm />
         </div>
       </div>

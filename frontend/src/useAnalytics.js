@@ -17,9 +17,6 @@ export function useAnalytics() {
     trackHeroCTA: (label) => trackEvent('cta_click', { category: 'hero', label }),
     trackNavCTA: (label) => trackEvent('cta_click', { category: 'navbar', label }),
 
-    // Calendly
-    trackCalendlyOpen: (source) => trackEvent('calendly_open', { source }),
-
     // Chatbot
     trackChatbotOpen: () => trackEvent('chatbot_open'),
     trackChatbotLead: () => trackEvent('chatbot_lead_captured'),

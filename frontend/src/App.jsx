@@ -1,62 +1,54 @@
-import { useState, useRef, lazy, Suspense } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import About from "./components/About";
-import CodeEditor from "./components/CodeEditor";
-import Process from "./components/Process";
-import Services from "./components/Services";
-import Projects from "./components/Projects";
-import Testimonials from "./components/Testimonials";
-import Zone from "./components/Zone";
-import FAQ from "./components/FAQ";
-import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
-import StickyBar from "./components/StickyBar";
+import Home from "./pages/Home";
+import AboutPage from "./pages/AboutPage";
 
 const Chatbot = lazy(() => import("./components/Chatbot"));
-const CalendlyModal = lazy(() => import("./components/CalendlyModal"));
 
 export default function App() {
-  const [loaded, setLoaded] = useState(false);
-  const [calendlyOpen, setCalendlyOpen] = useState(false);
-  const navLogoRef = useRef(null);
+  // Séquence d'intro :
+  //  'logo'    : gros logo seul au centre (flou → net)
+  //  'forming' : le logo rétrécit, la pill se forme autour
+  //  'rising'  : la pill monte se replacer en haut (+ s'élargit)
+  //  'done'    : navbar complète, liens déployés
+  const [intro, setIntro] = useState("logo");
+
+  const loaded = intro === "done";
+
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      const t = setTimeout(() => setIntro("done"), 200);
+      return () => clearTimeout(t);
+    }
+    const t1 = setTimeout(() => setIntro("forming"), 700);
+    const t2 = setTimeout(() => setIntro("rising"), 1280);
+    const t3 = setTimeout(() => setIntro("done"), 2080);
+    return () => [t1, t2, t3].forEach(clearTimeout);
+  }, []);
 
   return (
     <Suspense fallback={null}>
-      {!loaded && (
-        <Loader onDone={() => setLoaded(true)} navLogoRef={navLogoRef} />
-      )}
-      {calendlyOpen && <CalendlyModal onClose={() => setCalendlyOpen(false)} />}
-      <Navbar
-        navLogoRef={navLogoRef}
-        onOpenCalendly={() => setCalendlyOpen(true)}
-      />
-      <main>
-        <Hero onOpenCalendly={() => setCalendlyOpen(true)} />
-        <div className="divider divider--dark" />
-        <About />
-        <div className="divider divider--dark" />
-        <CodeEditor />
-        <div className="divider divider--light" />
-        <Services onOpenCalendly={() => setCalendlyOpen(true)} />
-        <div className="divider" />
-        <Projects />
-        <div className="divider" />
-        <Testimonials />
-        <div className="divider" />
-        <Zone />
-        <div className="divider" />
-        <FAQ />
-        <div className="divider" />
-        <Contact onOpenCalendly={() => setCalendlyOpen(true)} />
-      </main>
+      {intro !== "done" && <Loader phase={intro} />}
+
+      <Navbar intro={intro} />
+
+      <Routes>
+        <Route
+          path="/"
+          element={<Home introDone={loaded} />}
+        />
+        <Route path="/a-propos" element={<AboutPage />} />
+      </Routes>
+
       <Footer />
       <Chatbot />
       <ScrollToTop />
-      <StickyBar onOpenCalendly={() => setCalendlyOpen(true)} />
     </Suspense>
   );
 }

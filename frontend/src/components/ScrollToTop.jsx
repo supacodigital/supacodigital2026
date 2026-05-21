@@ -4,8 +4,22 @@ export default function ScrollToTop() {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 400)
+    const section = document.getElementById('avis')
+
+    // Pages sans section "avis" : on retombe sur un seuil de scroll classique
+    if (!section) {
+      const onScroll = () => setVisible(window.scrollY > 400)
+      window.addEventListener('scroll', onScroll, { passive: true })
+      onScroll()
+      return () => window.removeEventListener('scroll', onScroll)
+    }
+
+    // Visible dès que le haut de la section Testimonials est atteint ou dépassé
+    const onScroll = () => {
+      setVisible(section.getBoundingClientRect().top <= 0)
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 

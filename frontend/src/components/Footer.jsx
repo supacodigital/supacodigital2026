@@ -1,16 +1,16 @@
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import LegalModal from "./LegalModal";
 import { Icon } from "../icons";
 
 const NAV_LINKS = [
   { label: "Accueil", href: "#accueil" },
-  { label: "À propos", href: "#propos" },
   { label: "Services", href: "#services" },
   { label: "Projets", href: "#projets" },
-  { label: "Processus", href: "#processus" },
   { label: "Avis", href: "#avis" },
   { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
+  { label: "À propos", href: "/a-propos" },
 ];
 
 const SERVICES_LINKS = [
@@ -32,6 +32,23 @@ const ZONES = [
 
 export default function Footer() {
   const [legal, setLegal] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const onHome = location.pathname === "/";
+
+  // Clic sur un lien interne. Ancre (#id) : sur la home, useAnchorScroll
+  // intercepte et scrolle ; hors home, on navigue vers / avec la section
+  // cible (Home scrolle au montage). Lien de page (/x) : navigation normale.
+  const handleClick = (e, href) => {
+    if (href.startsWith("#")) {
+      if (onHome) return; // useAnchorScroll gère le scroll
+      e.preventDefault();
+      navigate("/", { state: { scrollTo: href.slice(1) } });
+    } else {
+      e.preventDefault();
+      navigate(href);
+    }
+  };
 
   return (
     <>
@@ -40,7 +57,7 @@ export default function Footer() {
         <div className="footer-grid">
           {/* Col 1 : Logo + description + socials */}
           <div className="footer-brand">
-            <a href="#accueil" className="footer-logo">
+            <a href="#accueil" className="footer-logo" onClick={(e) => handleClick(e, "#accueil")}>
               <img
                 src="/logo2026.webp"
                 alt="Supaco Digital"
@@ -129,7 +146,9 @@ export default function Footer() {
             <ul className="footer-col-links" role="list">
               {NAV_LINKS.map((l) => (
                 <li key={l.label}>
-                  <a href={l.href}>{l.label}</a>
+                  <a href={l.href} onClick={(e) => handleClick(e, l.href)}>
+                    {l.label}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -141,7 +160,9 @@ export default function Footer() {
             <ul className="footer-col-links" role="list">
               {SERVICES_LINKS.map((l) => (
                 <li key={l.label}>
-                  <a href={l.href}>{l.label}</a>
+                  <a href={l.href} onClick={(e) => handleClick(e, l.href)}>
+                    {l.label}
+                  </a>
                 </li>
               ))}
             </ul>

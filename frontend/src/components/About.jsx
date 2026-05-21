@@ -3,60 +3,38 @@ import { useEffect, useRef, useState } from "react";
 import { useReveal } from "../useReveal";
 
 const STATS = [
-  {
-    value: 20,
-    suffix: "+",
-    label: "Projets livrés",
-    desc: "Sites et apps en production",
-  },
-  {
-    value: 7,
-    suffix: "j",
-    label: "Délai moyen",
-    desc: "Pour un site vitrine complet",
-  },
-  {
-    value: 100,
-    suffix: "%",
-    label: "Sur mesure",
-    desc: "Zéro template, zéro copier-coller",
-  },
-  {
-    value: 5,
-    suffix: "★",
-    label: "Note Google",
-    desc: "Avis vérifiés de vrais clients",
-  },
+  { value: 20, suffix: "+", label: "Projets livrés" },
+  { value: 7, suffix: "j", label: "Délai moyen" },
+  { value: 100, suffix: "%", label: "Sur mesure" },
+  { value: 5, suffix: "★", label: "Note Google" },
 ];
 
 const VALEURS = [
   {
-    icon: "⚡",
+    icon: Icon.Zap,
     titre: "Livraison rapide",
-    desc: "Un site vitrine en 7 jours. Une app en 2-3 semaines. Pas de délais à rallonge.",
+    desc: "Un site vitrine en 7 jours, une app en 2-3 semaines. Pas de délais à rallonge.",
   },
   {
-    icon: "🎯",
+    icon: Icon.Target,
     titre: "Orienté résultats",
     desc: "L'objectif n'est pas un beau site — c'est plus de clients et plus de ventes.",
   },
   {
-    icon: "🤝",
+    icon: Icon.User,
     titre: "Interlocuteur unique",
-    desc: "Kevin de A à Z. Pas de sous-traitant, pas de chaine de mails. Un contact direct.",
+    desc: "Kevin de A à Z. Pas de sous-traitant, pas de chaîne de mails. Un contact direct.",
   },
 ];
 
-const STACK = ["React", "Node.js", "Vite", "SCSS"];
+const STACK = ["React", "Node.js", "MySql", "SEO natif"];
 
 export default function About() {
   const statsRef = useRef(null);
   const [vals, setVals] = useState(STATS.map(() => 0));
   const [animated, setAnimated] = useState(false);
 
-  const photoRef = useReveal(0.15);
-  const mainRef = useReveal(0.1);
-  const asideRef = useReveal(0.1);
+  const gridRef = useReveal(0.08);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -64,7 +42,7 @@ export default function About() {
         if (!entry.isIntersecting) return;
         observer.disconnect();
         setAnimated(true);
-        const duration = 1800;
+        const duration = 1600;
         let start = null;
         const step = (ts) => {
           if (!start) start = ts;
@@ -83,132 +61,111 @@ export default function About() {
 
   return (
     <section className="section about" id="propos">
-      <div className="about-inner">
-        {/* ── Colonne 1 : Photo + valeurs ── */}
-        <div className="about-photo-wrap reveal-left" ref={photoRef}>
-          <div className="about-mesh">
-            <div className="about-mesh-blob about-mesh-blob--1" />
-            <div className="about-mesh-blob about-mesh-blob--2" />
-            <div className="about-mesh-blob about-mesh-blob--3" />
-          </div>
-          <div className="about-photo-frame">
-            <img
-              src="/kevin.webp"
-              alt="Kevin — Supaco Digital"
-              className="about-photo"
-              loading="lazy"
-              decoding="async"
-              width="180"
-              height="180"
-            />
-          </div>
-          <div className="about-photo-badges">
-            <div className="about-photo-tag">
-              <span className="about-photo-tag-dot" />
-              Disponible
-            </div>
-            <div className="about-photo-location">📍 Saint-Genis-Pouilly</div>
-          </div>
-        </div>
+      <div className="about-head">
+        <div className="section-label">À propos</div>
+        <h2 className="about-title">
+          Bonjour, je suis <em>Kevin</em>
+        </h2>
+      </div>
 
-        {/* ── Colonne 2 : Bio + stats ── */}
-        <div className="about-main reveal-up" ref={mainRef}>
-          <div className="section-label">À propos</div>
-          <h2 className="about-title">
-            Bonjour,
-            <br />
-            je suis <em>Kevin</em>
-          </h2>
-          <p className="about-role">Fondateur & Développeur · Supaco Digital</p>
-          <p className="about-bio">
-            Supaco Digital, c'est une agence web indépendante basée à
-            Saint-Genis-Pouilly dans le Pays de Gex, créée pour aider les{" "}
-            <mark className="about-mark">
-              PME locales, indépendants et restaurateurs
-            </mark>{" "}
-            à <mark className="about-mark">gagner plus de clients</mark> grâce à
-            des sites performants.
-            <br />
-            <br />
-            Pas de template générique. Chaque projet est conçu{" "}
-            <mark className="about-mark">sur mesure</mark>, avec du code propre
-            et une obsession pour les{" "}
-            <mark className="about-mark">résultats concrets</mark> — plus de
-            visibilité, plus de contacts, plus de ventes.
+      <div className="about-bento reveal-stagger" ref={gridRef}>
+        {/* Carte photo (haute, à gauche) */}
+        <article className="bento-card bento-photo">
+          <img
+            src="/kevin.webp"
+            alt="Kevin — fondateur de Supaco Digital"
+            className="bento-photo-img"
+            loading="lazy"
+            decoding="async"
+            width="320"
+            height="400"
+          />
+          <div className="bento-photo-overlay">
+            <span className="bento-photo-dot" />
+            Disponible · Saint-Genis-Pouilly
+          </div>
+        </article>
+
+        {/* Carte bio (large) */}
+        <article className="bento-card bento-bio">
+          <p className="bento-role">Fondateur &amp; Développeur</p>
+          <p className="bento-bio-text">
+            Supaco Digital, c'est une agence web indépendante du{" "}
+            <strong>Pays de Gex</strong>, créée pour aider les PME, indépendants
+            et restaurateurs à <strong>gagner plus de clients</strong> grâce à
+            des sites performants. Pas de template générique : chaque projet est
+            conçu <strong>sur mesure</strong>, avec du code propre et une
+            obsession pour les résultats concrets.
           </p>
+        </article>
 
-          {/* Stats */}
-          <div className="about-stats" ref={statsRef}>
-            {STATS.map((s, i) => (
-              <div
-                key={s.label}
-                className={`about-stat${
-                  animated ? " about-stat--animated" : ""
-                }`}
-                style={{ "--delay": `${i * 80}ms` }}
-              >
-                <div className="about-stat-value">
-                  {vals[i]}
-                  <span className="about-stat-suffix">{s.suffix}</span>
-                </div>
-                <div className="about-stat-label">{s.label}</div>
-                <div className="about-stat-desc">{s.desc}</div>
+        {/* Cartes stats */}
+        <div className="bento-stats" ref={statsRef}>
+          {STATS.map((s, i) => (
+            <article
+              key={s.label}
+              className={`bento-card bento-stat${
+                animated ? " is-animated" : ""
+              }`}
+              style={{ "--delay": `${i * 70}ms` }}
+            >
+              <div className="bento-stat-value">
+                {vals[i]}
+                <span className="bento-stat-suffix">{s.suffix}</span>
               </div>
-            ))}
-          </div>
+              <div className="bento-stat-label">{s.label}</div>
+            </article>
+          ))}
         </div>
 
-        {/* ── Colonne 3 : Valeurs + stack ── */}
-        <div className="about-aside reveal-right" ref={asideRef}>
-          {/* Valeurs différenciantes */}
-          <div className="about-aside-label">Ce qui nous différencie</div>
-          <div className="about-valeurs">
-            {VALEURS.map((v) => (
-              <div key={v.titre} className="about-valeur">
-                <span className="about-valeur-icon">{v.icon}</span>
-                <div>
-                  <div className="about-valeur-titre">{v.titre}</div>
-                  <div className="about-valeur-desc">{v.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="about-sep" />
-
-          {/* Stack */}
-          <div className="about-aside-label">Stack</div>
-          <div className="about-pills">
-            {STACK.map((s) => (
-              <span key={s} className="about-pill">
-                {s}
+        {/* Cartes valeurs */}
+        {VALEURS.map((v) => {
+          const Ico = v.icon;
+          return (
+            <article key={v.titre} className="bento-card bento-valeur">
+              <span className="bento-valeur-icon">
+                <Ico />
               </span>
-            ))}
-          </div>
+              <div className="bento-valeur-titre">{v.titre}</div>
+              <p className="bento-valeur-desc">{v.desc}</p>
+            </article>
+          );
+        })}
 
-          <div className="about-sep" />
-
-          {/* Socials */}
-          <div className="about-aside-label">Contact</div>
-          <div className="about-socials">
-            <a
-              href="https://www.instagram.com/supacodigital/"
-              target="_blank"
-              rel="noreferrer"
-              className="about-social-link"
-            >
-              <Icon.Instagram />
-              <span>@supacodigital</span>
-            </a>
-            <a
-              href="mailto:contact@supaco-digital.com"
-              className="about-social-link"
-            >
-              <Icon.Mail />
-              <span>contact@supaco-digital.com</span>
-            </a>
+        {/* Carte stack + contact (large, en pied) */}
+        <article className="bento-card bento-footer">
+          <div className="bento-footer-block">
+            <div className="bento-footer-label">Stack technique</div>
+            <div className="bento-pills">
+              {STACK.map((s) => (
+                <span key={s} className="bento-pill">
+                  {s}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
+          <div className="bento-footer-block">
+            <div className="bento-footer-label">Contact direct</div>
+            <div className="bento-socials">
+              <a
+                href="https://www.instagram.com/supacodigital/"
+                target="_blank"
+                rel="noreferrer"
+                className="bento-social"
+              >
+                <Icon.Instagram />
+                <span>@supacodigital</span>
+              </a>
+              <a
+                href="mailto:contact@supaco-digital.com"
+                className="bento-social"
+              >
+                <Icon.Mail />
+                <span>contact@supaco-digital.com</span>
+              </a>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
   );
